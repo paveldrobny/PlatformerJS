@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Lato', sans-serif;
+  user-select: none;
+}
+
+body {
+  background: #000000;
+  align-items: center;
+  display: flex;
+  line-height: 1.4;
+  margin: 0;
+}
+
+svg {
+  max-height: 100vh;
+  width: 100%;
+  overflow: visible;
+  /* shape-rendering: crispEdges;
+    vertical-align: middle; */
+}
+
+svg text {
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-size: 21px;
+  fill: white;
+}
+
+.message {
+  text-anchor: start;
+  dominant-baseline: middle;
+  font-size: 21px;
+  fill: rgb(206, 206, 206);
+}
+
+#menu {
+  background: rgb(65, 65, 65);
+}
+
+.panel {
+  width: 300px;
+  height: 300px;
+  background: red;
+  transform: translate(50%, 50%);
+}
+
+#title {
+  font-size: 100px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.items {
+  transition: .3s;
+  opacity: 0.5;
+}
+
+.items.selected {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  fill: red;
+  opacity: 1;
+}
