@@ -1,22 +1,43 @@
 import PanelMain from "./ui/panels/main.js";
 import MessageNavigate from "./ui/messages/navigate.js";
 import MessageVersion from "./ui/messages/version.js";
+import GameManager from "./gameManager.js";
+import Player from "./objects/player.js";
+import Platform from "./objects/platform.js";
 
 const panelMain = new PanelMain();
 const messageNavigate = new MessageNavigate();
 const messageVersion = new MessageVersion();
 
-//#region EVENTS
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+const gameManager = new GameManager();
+const player = new Player(100, 600, "green");
+const input = new Input();
+
+const platforms = [
+  new Platform(200, 600, 200, 155, "red"),
+  new Platform(900, 500, 30, 30, "orange")
+];
+
+let canvasWidth = gameManager.width;
+let canvasHeight = gameManager.height;
+
 window.addEventListener("load", function () {
-  switchPanel("main");
-  panelMain.create();
-  messageNavigate.create();
-  messageVersion.create();
+  // switchPanel("main");
+  // panelMain.create();
+  // messageNavigate.create();
+  // messageVersion.create();
+  gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
 
-window.addEventListener("keydown", function () {
-  panelMain.navigate();
+window.addEventListener("resize", function () {
+  gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
+
+window.addEventListener("keydown", onKeyDown);
+window.addEventListener("keyup", onKeyUp);
+
 //#endregion
 
 function switchPanel(openPanel) {
@@ -31,167 +52,79 @@ function switchPanel(openPanel) {
   }
 }
 
-// let keyState = [];
+let keyState = [];
 
-// function onKeyDown(event) {
-//   keyState[event.key] = true;
-// }
+function onKeyDown(event) {
+  keyState[event.key] = true;
+}
 
-// function onKeyUp(event) {
-//   keyState[event.key] = false;
-// }
+function onKeyUp(event) {
+  keyState[event.key] = false;
+}
 
-// // window.addEventListener("keydown", onKeyDown);
-// // window.addEventListener("keyup", onKeyUp);
+function Input() {
+  this.keys = {
+    W: "w",
+    A: "a",
+    S: "s",
+    D: "d",
+    ArrowUp: "ArrowUp",
+    ArrowLeft: "ArrowLeft",
+    ArrowDown: "ArrowDown",
+    ArrowRight: "ArrowRight",
+    Spacebar: " "
+  };
+}
 
-// // const player1 = new Player(15, 600, "green");
-// const input = new Input();
+Input.prototype.keyDetect = function () {
+  if (keyState[this.keys.W]) {
+    player.y -= 1;
+    if (!player.isJumping()) {
+      player.jump();
+    }
+  }
 
-// // const CANVAS = document.getElementById("canvas");
-// // const CONTEXT = canvas.getContext("2d");
+  if (keyState[this.keys.S]) {
+    player.y += 1;
+    // if (!player.isJumping()) {
+    //   player.jump();
+    // }
+  }
+  if (keyState[this.keys.A]) {
+    if (player.velocityX > -player.speed) {
+      player.move(false);
+    }
+  }
+  if (keyState[this.keys.D]) {
+    if (player.velocityX < player.speed) {
+      player.move(true);
+    }
+  }
+};
 
-// const WIDTH = 1280;
-// const HEIGHT = 720;
-// let CANVAS_WIDTH = 1280;
-// let CANVAS_HEIGHT = 720;
+const update = () => {
+  context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-// let level_01 = [
-//   [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 1],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 1],
-//   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-// ];
+  player.velocityX *= player.friction;
+  player.velocityY += player.gravity;
 
-// var mapPositionX = 0;
-// var mapPositionY = 0;
+  input.keyDetect();
+  gameManager.area(player);
 
-// const BLOCK_SIZE = 60;
+  platforms.forEach(platform => platform.draw(context));
+  platforms.forEach(platform => player.collision(platform))
+  player.draw(context);
 
-// // function drawMap() {
-// //   for (let i = 0; i < level_01.length; i++) {
-// //     for (let j = 0; j < level_01[i].length; j++) {
-// //       switch (level_01[i][j]) {
-// //         case 0:
-// //           CONTEXT.fillStyle = "red";
-// //           CONTEXT.fillRect(mapPositionX, mapPositionY, BLOCK_SIZE, BLOCK_SIZE);
-// //           break;
-// //         case 1:
-// //           CONTEXT.fillStyle = "red";
-// //           CONTEXT.fillRect(mapPositionX, mapPositionY, BLOCK_SIZE, BLOCK_SIZE);
-// //           break;
-// //         case 2:
-// //           CONTEXT.fillStyle = "red";
-// //           CONTEXT.fillRect(mapPositionX, mapPositionY, BLOCK_SIZE, BLOCK_SIZE);
-// //           break;
-// //         case 3:
-// //           CONTEXT.fillStyle = "red";
-// //           CONTEXT.fillRect(mapPositionX, mapPositionY, BLOCK_SIZE, BLOCK_SIZE);
-// //           break;
-// //       }
-// //       mapPositionX += BLOCK_SIZE;
-// //     }
-// //     mapPositionX = 0;
-// //     mapPositionY += BLOCK_SIZE;
-// //   }
-// // }
+  if (player.y > gameManager.height - 56) {
+    player.isJump = false;
+    player.y = gameManager.height - 56;
+    player.velocityY = 0;
+  }
 
-// // //#region PLAYER
-// // function Player(x, y, color) {
-// //   this.x = x;
-// //   this.y = y;
-// //   this.w = 40;
-// //   this.h = 60;
-// //   this.speed = 5;
-// //   this.color = color;
-// // }
+  player.x += player.velocityX;
+  player.y += player.velocityY;
 
-// // Player.prototype.draw = function () {
-// //   CONTEXT.fillStyle = this.color;
-// //   CONTEXT.fillRect(this.x, this.y, this.w, this.h);
-// // };
+  requestAnimationFrame(update);
+};
 
-// // Player.prototype.move = function () {
-// //   this.x++;
-// // };
-
-// // Player.prototype.collision = function (x, y) {
-// //   if (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h) {
-// //     return true;
-// //   }
-// // };
-// //#endregion
-
-// //#region INPUT
-// function Input() {
-//   this.keys = {
-//     W: "w",
-//     A: "a",
-//     S: "s",
-//     D: "d",
-//     ArrowUp: "ArrowUp",
-//     ArrowLeft: "ArrowLeft",
-//     ArrowDown: "ArrowDown",
-//     ArrowRight: "ArrowRight",
-//     Spacebar: " "
-//   };
-// }
-
-// // Input.prototype.keyDetect = function () {
-// //   if (keyState[this.keys.W]) {
-// //     player1.y -= player1.speed;
-// //   }
-// //   if (keyState[this.keys.A]) {
-// //     player1.x -= player1.speed;
-// //   }
-// //   if (keyState[this.keys.S]) {
-// //     player1.y += player1.speed;
-// //   }
-// //   if (keyState[this.keys.D]) {
-// //     player1.x += player1.speed;
-// //   }
-// // };
-
-// // let resizeCanvas = function () {
-// //   CANVAS_WIDTH = window.innerWidth;
-// //   CANVAS_HEIGHT = window.innerHeight;
-
-// //   let ratio = 16 / 9;
-// //   if (CANVAS_HEIGHT < CANVAS_WIDTH / ratio)
-// //     CANVAS_WIDTH = CANVAS_HEIGHT * ratio;
-// //   else CANVAS_HEIGHT = CANVAS_WIDTH / ratio;
-
-// //   CANVAS.width = WIDTH;
-// //   CANVAS.height = HEIGHT;
-// //   CONTEXT.mozImageSmoothingEnabled = true;
-// //   CONTEXT.webkitImageSmoothingEnabled = true;
-// //   CONTEXT.msImageSmoothingEnabled = true;
-// //   CONTEXT.imageSmoothingEnabled = true;
-
-// //   CANVAS.style.width = "" + CANVAS_WIDTH + "px";
-// //   CANVAS.style.height = "" + CANVAS_HEIGHT + "px";
-// // };
-
-// // resizeCanvas();
-
-// // window.addEventListener("resize", function () {
-// //   resizeCanvas();
-// // });
-
-// const update = () => {
-//   // CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-//   // drawMap();
-//   // player1.draw();
-//   // input.keyDetect();
-//   // requestAnimationFrame(update);
-// };
-
-// update();
-// ////////////////////////////////////////////
+update();
