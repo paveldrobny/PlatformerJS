@@ -6,11 +6,17 @@ export default class ObjectBase {
     this.h = 0;
     this.color = color;
     this.speed = 0;
+    this.isDraggable = false;
   }
 
   draw(context) {
     context.fillStyle = this.color;
     context.fillRect(this.x, this.y, this.w, this.h);
+  }
+
+  setPosition(x, y) {
+    this.x = x;
+    this.y = y;
   }
 
   collision(object) {
@@ -22,6 +28,15 @@ export default class ObjectBase {
     ) {
       return true;
     }
+  }
+
+  collisionTest(x, y) {
+    return (
+      this.x <= x &&
+      this.x + this.w >= x &&
+      this.y <= y &&
+      this.y + this.h >= y
+    );
   }
 
   move(isForward) {

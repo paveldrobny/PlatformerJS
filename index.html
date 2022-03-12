@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <svg id="menu" viewBox="0 0 1280 720">
+    <svg id="ui" viewBox="0 0 1280 720">
         <g id="main" class="panel">
         </g>
 
@@ -25,7 +25,43 @@
         </g> -->
     </svg>
 
-     <canvas id="canvas" /> 
+    <div id="editor">
+        <div id="editor-top">
+            <button>Добавить платформу (горизонтальная)</button>
+            <button>Добавить платформу (вертикальная)</button>
+            <button>Добавить способность</button>
+            <div id="editor-top-content">
+                <button>Сохранить уровень</button>
+                <button>Тест</button>
+                <button>Выйти из редактора</button>
+            </div>
+        </div>
+        <div id="editor-right">
+            <div id="scene-objects">
+                <div class="scene-objects-title">Объекты на сцене</div>
+                <div class="scene-objects-items">Player</div>
+                <div class="scene-objects-items selected">Platform 1</div>
+                <div class="scene-objects-items">Platform 2</div>
+                <div class="scene-objects-items">Platform 3</div>
+
+            </div>
+            <div class="scene-objects-title">Текущий объект</div>
+            <div class="scene-objects-title-second">Platform 1</div>
+            <div class="scene-objects-title-main-sub">Координаты</div>
+            <div class="scene-objects-title-sub">X: 0</div>
+            <div class="scene-objects-title-sub">Y: 0</div>
+            <div class="scene-objects-title-main-sub">Свойства Platform 1</div>
+            <div class="scene-objects-title-sub">Ширина: 120px</div>
+            <div class="scene-objects-title-sub">Высота: 20px</div>
+            <div class="scene-objects-title-sub">Цвет: #FF0000</div>
+            <div class="scene-objects-title-sub">Коллизия: ВКЛ.</div>
+            <div id="editMode">Редактор карт (бета), <br/> версия 0.35</div>
+        </div>
+    </div>
+
+    <div id="canvas-wrapper"> <canvas id="canvas" /></div>
+
+
     <script src="./index.js" type="module"></script>
 </body>
 

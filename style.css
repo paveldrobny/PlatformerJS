@@ -17,7 +17,7 @@ body {
 }
 
 svg {
-
+  display: none;
   max-height: 100vh;
   width: auto;
   overflow: visible;
@@ -36,15 +36,20 @@ text, rect {
   dominant-baseline: middle;
 }
 
+#canvas-wrapper {
+  position: relative;
+
+}
+
 #canvas {
   background: rgb(36, 36, 36);
 }
 
 #canvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  top: 20px;
+  left: 35px;
+
 }
 
 .message {
@@ -53,9 +58,10 @@ text, rect {
   fill: rgb(206, 206, 206);
 }
 
-#menu {
-  overflow: hidden;
-  background: rgb(65, 65, 65);
+#ui {
+  display: none;
+  z-index: 9;
+  /* overflow: hidden; */
 }
 
 .panel {
@@ -82,4 +88,114 @@ text, rect {
   letter-spacing: 3px;
   fill: red;
   opacity: 1;
+}
+
+
+#editor {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#editor-top {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 250px);
+  height: 45px;
+  line-height: 42px;
+  padding-left: 10px;
+  border-bottom: 2px solid rgb(187, 187, 187);
+  background: rgb(62, 77, 109);
+}
+
+#editor-top button{
+  font-size: 17px;
+  padding: 5px;
+}
+
+#editor-top-content {
+  float: right;
+  margin-right: 5px;
+  line-height: 40px;
+}
+
+#editor-right {
+  top: -35px;
+  float: right;
+  bottom: 0px;
+  width: 250px;
+  height: 100%;
+  border-left: 2px solid rgb(187, 187, 187);
+  background: rgb(62, 77, 109);
+}
+
+#scene-objects {
+  border-bottom: 2px solid rgb(187, 187, 187);
+  padding-bottom: 30px;
+}
+
+.scene-objects-title {
+  text-align: center;
+  height: 30px;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: bold;
+  background: white;
+}
+
+.top-title{
+  margin: 30px 0px 0px 0;
+}
+
+.scene-objects-title-second {
+  text-align: center;
+  margin: 5px;
+  height: 30px;
+  font-size: 15px;
+  line-height: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: rgb(241, 220, 24);
+}
+
+.scene-objects-title-main-sub {
+  color: white;
+  padding: 5px;
+  margin: 10px;
+  border-bottom: 2px solid rgb(246, 70, 0);
+}
+
+.scene-objects-title-sub{
+  padding-left: 10px;
+  padding: 5px;
+  margin: 5px 30px;
+  color: white;
+  background: rgb(246, 70, 0);;
+}
+
+.scene-objects-items {
+  margin: 5px;
+  padding: 5px;
+  color: rgb(255, 255, 255);
+  background: rgba(156, 156, 156, 0.5);
+}
+
+.scene-objects-items.selected {
+  background: green;
+}
+
+#editMode{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 248px;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  font-weight: bold;
+  background: rgb(172, 34, 34);
 }

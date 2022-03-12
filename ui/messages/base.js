@@ -4,7 +4,7 @@ export default class MessageBase {
   }
 
   create(text, positionX, positionY) {
-    const menu = document.getElementById("menu");
+    const ui = document.getElementById("ui");
     const message = document.createElementNS(this.svgNS, "text");
 
     message.setAttributeNS(null, "class", "message");
@@ -12,6 +12,6 @@ export default class MessageBase {
     message.setAttributeNS(null, "y", positionY);
     message.innerHTML = `${text}`;
 
-    menu.appendChild(message);
+    ui.appendChild(message);
   }
 }

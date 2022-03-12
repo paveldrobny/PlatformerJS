@@ -1,6 +1,6 @@
 import ObjectBase from "./base.js";
 
-export default class Platform extends ObjectBase {
+export default class Collected extends ObjectBase {
   constructor(x, y, w, h, color) {
     super();
     this.x = x;
@@ -8,10 +8,19 @@ export default class Platform extends ObjectBase {
     this.w = w;
     this.h = h;
     this.color = color;
-    this.isDraggable  = false;
+    this.states = ["smallSize", "normalSize", "coin", "crystal"];
+    this.currentState = "";
   }
 
   draw(context) {
     super.draw(context);
   }
+
+  smallSize() {}
+
+  normalSize() {}
+
+  сoin() {}
+
+  crystal() {}
 }

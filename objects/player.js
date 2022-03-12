@@ -1,4 +1,5 @@
 import Object from "./base.js";
+import GameManager from "../gameManager.js";
 
 export default class Player extends Object {
   constructor(x, y, color) {
@@ -102,5 +103,15 @@ export default class Player extends Object {
   jump() {
     this.isJump = true;
     this.velocityY = -this.speed * 2.2;
+  }
+
+  ground() {
+    const gameManager = new GameManager();
+    
+    if (this.y > gameManager.height - 56) {
+      this.isJump = false;
+      this.y = gameManager.height - 56;
+      this.velocityY = 0;
+    }
   }
 }

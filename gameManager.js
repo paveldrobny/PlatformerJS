@@ -8,7 +8,7 @@ export default class GameManager {
   area(player) {
     if (player.x + player.h < 0) player.x = this.width;
     if (player.x > this.width) player.x = -player.h;
-    if (player.y > this.height - player.h){
+    if (player.y > this.height - player.h) {
       player.isJump = false;
       player.y = this.height - player.h;
       player.velocityY = 0;
@@ -30,7 +30,7 @@ export default class GameManager {
     context.msImageSmoothingEnabled = true;
     context.imageSmoothingEnabled = true;
 
-    canvas.style.width = "" + canvasWidth + "px";
-    canvas.style.height = "" + canvasHeight + "px";
+    canvas.style.width = `${canvasWidth - 250}px`;
+    canvas.style.height = `${canvasHeight - 35}px`;
   }
 }
