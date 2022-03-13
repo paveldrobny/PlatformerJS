@@ -226,8 +226,10 @@ function input() {
         editorUI[0].classList.add("hide");
         player.x = 30;
         player.y = 600;
+        editorCollecteds = [];
+        editorPlatforms = [];
       }
-      
+
       editorOptions.enableEditorMode = false;
       menuUI.style.display = "block";
       gameManager.resize(canvas, context, canvasWidth, canvasHeight);
