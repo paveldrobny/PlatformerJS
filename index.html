@@ -18,49 +18,45 @@
     <svg id="ui" viewBox="0 0 1280 720">
         <g id="main" class="panel">
         </g>
-
-        <!-- <g class="message">
-            <rect x="-230" y="-50" width="460" height="200" rx="5" ry="5" />
-            <text fill="blue" x="10" y="10">NEW GAME</text>
-        </g> -->
     </svg>
 
-    <div id="editor">
+    <div class="editor hide">
         <div id="editor-top">
-            <button>Добавить платформу (горизонтальная)</button>
-            <button>Добавить платформу (вертикальная)</button>
-            <button>Добавить способность</button>
+            <button id="open-addObject">Add new object...</button>
             <div id="editor-top-content">
-                <button>Сохранить уровень</button>
-                <button>Тест</button>
-                <button>Выйти из редактора</button>
+                <!-- <button id="editor-play">Play</button> -->
+                <button id="editor-close">Return to main menu</button>
             </div>
         </div>
+
+        <div id="editor-addObject">
+            <div id="editor-addObject-title">ADD OBJECT <button id="close-addObject">X</button></div>
+            <button id="editor-add-vertical" class="editor-addObject-items">Platform vertical</button>
+            <button id="editor-add-horizontal" class="editor-addObject-items">Platform horizontal</button>
+            <button id="editor-add-ability-small" class="editor-addObject-items">Ability: small size</button>
+            <button id="editor-add-ability-normal" class="editor-addObject-items">Ability: normal size</button>
+        </div>
+
         <div id="editor-right">
             <div id="scene-objects">
-                <div class="scene-objects-title">Объекты на сцене</div>
-                <div class="scene-objects-items">Player</div>
-                <div class="scene-objects-items selected">Platform 1</div>
-                <div class="scene-objects-items">Platform 2</div>
-                <div class="scene-objects-items">Platform 3</div>
-
+                <div class="scene-objects-title">Object in scene</div>
+                <div class="scene-objects-items">Player: 1</div>
+                <div id="scene-objects-platform" class="scene-objects-items">Platforms: 0</div>
+                <div id="scene-objects-ability" class="scene-objects-items">Collecteds: 0</div>
             </div>
-            <div class="scene-objects-title">Текущий объект</div>
-            <div class="scene-objects-title-second">Platform 1</div>
-            <div class="scene-objects-title-main-sub">Координаты</div>
-            <div class="scene-objects-title-sub">X: 0</div>
-            <div class="scene-objects-title-sub">Y: 0</div>
-            <div class="scene-objects-title-main-sub">Свойства Platform 1</div>
-            <div class="scene-objects-title-sub">Ширина: 120px</div>
-            <div class="scene-objects-title-sub">Высота: 20px</div>
-            <div class="scene-objects-title-sub">Цвет: #FF0000</div>
-            <div class="scene-objects-title-sub">Коллизия: ВКЛ.</div>
-            <div id="editMode">Редактор карт (бета), <br/> версия 0.35</div>
+            <div class="scene-objects-title">Current object</div>
+            <div id="editor-current" class="scene-objects-title-second">{no selected}</div>
+            <div class="scene-objects-title-main-sub">Coordinates</div>
+            <div id="editor-posX" class="scene-objects-title-sub">X: {no selected}</div>
+            <div id="editor-posY" class="scene-objects-title-sub">Y: {no selected}</div>
+            <div class="scene-objects-title-main-sub">Properties</div>
+            <div id="editor-width" class="scene-objects-title-sub">Width: {no selected}</div>
+            <div id="editor-height" class="scene-objects-title-sub">Height: {no selected}</div>
+            <div id="editMode">Platformer editor (BETA) <br /> Version: 0.35</div>
         </div>
     </div>
 
-    <div id="canvas-wrapper"> <canvas id="canvas" /></div>
-
+    <canvas id="canvas" />
 
     <script src="./index.js" type="module"></script>
 </body>

@@ -8,7 +8,8 @@ export default class Platform extends ObjectBase {
     this.w = w;
     this.h = h;
     this.color = color;
-    this.isDraggable  = false;
+    this.isDraggable = false;
+    this.name = w > h ? "Platform Horizontal" : "Platform Vertical";
   }
 
   draw(context) {

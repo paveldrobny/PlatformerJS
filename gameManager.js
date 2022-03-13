@@ -1,3 +1,5 @@
+import { editorOptions } from "./global.js";
+
 export default class GameManager {
   constructor() {
     this.width = 1280;
@@ -30,7 +32,16 @@ export default class GameManager {
     context.msImageSmoothingEnabled = true;
     context.imageSmoothingEnabled = true;
 
-    canvas.style.width = `${canvasWidth - 250}px`;
-    canvas.style.height = `${canvasHeight - 35}px`;
+    if (editorOptions.isEditorEnabled) {
+      canvas.style.top = `${canvasHeight / 2 + 20}px`;
+      canvas.style.left = `${canvasWidth / 2 - 110}px`;
+      canvas.style.width = `${canvasWidth - 255}px`;
+      canvas.style.height = `${canvasHeight - 50}px`;
+      return;
+    }
+    canvas.style.top = "50%"
+    canvas.style.left = "50%"
+    canvas.style.width = `${canvasWidth}px`;
+    canvas.style.height = `${canvasHeight}px`;
   }
 }

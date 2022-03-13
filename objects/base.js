@@ -30,7 +30,7 @@ export default class ObjectBase {
     }
   }
 
-  collisionTest(x, y) {
+  collisionMouse(x, y) {
     return (
       this.x <= x &&
       this.x + this.w >= x &&

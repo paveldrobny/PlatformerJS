@@ -3,39 +3,40 @@ import MessageNavigate from "./ui/messages/navigate.js";
 import MessageVersion from "./ui/messages/version.js";
 import GameManager from "./gameManager.js";
 import Player from "./objects/player.js";
-import Platform from "./objects/platform.js";
-import MessageBase from "./ui/messages/base.js";
-import Collected from "./objects/collected.js";
+import Editor from "./editor.js";
+import KEYS from "./keys.js";
+import { drawLevels } from "./levels.js";
+import { editorOptions, menuOptions } from "./global.js";
 
+//#region INIT
 const panelMain = new PanelMain();
 const messageNavigate = new MessageNavigate();
 const messageVersion = new MessageVersion();
-const messageDebug = new MessageBase();
-
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 const gameManager = new GameManager();
-const player = new Player(50, 600, "green");
-const input = new Input();
-
-let platforms = [
-  new Platform(200, 600, 260, 155, "red"),
-  new Platform(650, 500, 250, 20, "orange"),
-  new Platform(1150, 400, 30, 30, "aqua")
-];
+const player = new Player(30, 600, "green");
+const editor = new Editor();
 let canvasWidth = gameManager.width;
 let canvasHeight = gameManager.height;
-let isEditorMode = false;
+//#endregion
 
+//#region EVENTS
 window.addEventListener("load", function () {
-  // switchPanel("main");
-  // panelMain.create();
-  // messageNavigate.create();
-  // messageVersion.create();
-  // messageDebug.create(`Width:${player.w}, Jump speed:${player.speed}`, 15, 30);
-
+  switchPanel("main");
+  panelMain.create();
+  messageNavigate.create();
+  messageVersion.create();
   gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
+
+function drawCanvasMessage() {
+  context.font = "15px sans-serif";
+  context.fillStyle = "gray";
+  context.textAlign = "center";
+  context.fillText("Press ESC to return to the main menu", 141, 20);
+  context.fillText("Press A,D,W to move", 85, 45);
+}
 
 window.addEventListener("resize", function () {
   gameManager.resize(canvas, context, canvasWidth, canvasHeight);
@@ -43,9 +44,93 @@ window.addEventListener("resize", function () {
 
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+//#endregion
 
+//#region EDITOR
 let editorCollecteds = [];
 let editorPlatforms = [];
+
+const editorObjectCurrent = document.getElementById("editor-current");
+const editorObjectPosX = document.getElementById("editor-posX");
+const editorObjectPosY = document.getElementById("editor-posY");
+const editorObjectWidth = document.getElementById("editor-width");
+const editorObjectHeight = document.getElementById("editor-height");
+
+const uiEditorAddObject = document.getElementById("editor-addObject");
+// const btnEditorPlay = document.getElementById("editor-play");
+const btnEditorClose = document.getElementById("editor-close");
+const btnOpenAddObject = document.getElementById("open-addObject");
+const btnCloseAddObject = document.getElementById("close-addObject");
+const btnAddObjectVertical = document.getElementById("editor-add-vertical");
+const btnAddObjectHorizontal = document.getElementById("editor-add-horizontal");
+const btnAddAbilitySmall = document.getElementById("editor-add-ability-small");
+const btnAddAbilityNormal = document.getElementById(
+  "editor-add-ability-normal"
+);
+
+// btnEditorPlay.addEventListener("click", function () {
+//   isEditorMode = false;
+// });
+
+btnEditorClose.addEventListener("click", function () {
+  const editorUI = document.getElementsByClassName("editor");
+  const menuUI = document.getElementById("ui");
+
+  menuOptions.setMainMenu = true;
+  editorOptions.enableEditorMode = false;
+  editorUI[0].classList.add("hide");
+  menuUI.style.display = "block";
+  editorCollecteds = [];
+  editorPlatforms = [];
+  gameManager.resize(canvas, context, canvasWidth, canvasHeight);
+});
+
+btnOpenAddObject.addEventListener("click", function () {
+  uiEditorAddObject.style.display = "block";
+});
+
+btnCloseAddObject.addEventListener("click", function () {
+  uiEditorAddObject.style.display = "none";
+});
+
+const sceneObjectPlatform = document.getElementById("scene-objects-platform");
+const sceneObjectAbility = document.getElementById("scene-objects-ability");
+
+btnAddObjectVertical.addEventListener("click", function () {
+  editor.addPlatform(true, editorPlatforms);
+  sceneObjectPlatform.innerHTML = `Platforms: ${editorPlatforms.length}`;
+});
+
+btnAddObjectHorizontal.addEventListener("click", function () {
+  editor.addPlatform(false, editorPlatforms);
+  sceneObjectPlatform.innerHTML = `Platforms: ${editorPlatforms.length}`;
+});
+
+btnAddAbilitySmall.addEventListener("click", function () {
+  editor.addAbilitySmall(editorCollecteds);
+  sceneObjectAbility.innerHTML = `Collecteds: ${editorCollecteds.length}`;
+});
+
+btnAddAbilityNormal.addEventListener("click", function () {
+  editor.addAbilityNormal(editorCollecteds);
+  sceneObjectAbility.innerHTML = `Collecteds: ${editorCollecteds.length}`;
+});
+
+function editorObjectGetData(object) {
+  editorObjectCurrent.innerHTML = object.name;
+  editorObjectPosX.innerHTML = `X: ${object.x.toFixed(1)}`;
+  editorObjectPosY.innerHTML = `Y: ${object.y.toFixed(1)}`;
+  editorObjectWidth.innerHTML = `Width: ${object.w.toFixed(1)}`;
+  editorObjectHeight.innerHTML = `Height: ${object.h.toFixed(1)}`;
+}
+
+function editorObjectDefault() {
+  editorObjectCurrent.innerHTML = "{no selected}";
+  editorObjectPosX.innerHTML = "X: {no selected}";
+  editorObjectPosY.innerHTML = "Y: {no selected}";
+  editorObjectWidth.innerHTML = "Width: {no selected}";
+  editorObjectHeight.innerHTML = "Height: {no selected}";
+}
 
 window.addEventListener("mousedown", function (event) {
   const rect = canvas.getBoundingClientRect();
@@ -55,16 +140,31 @@ window.addEventListener("mousedown", function (event) {
   const y = (event.clientY - rect.top) * scaleY;
 
   for (let i = 0; i < editorPlatforms.length; i++) {
-    if (editorPlatforms[i].collisionTest(x, y)) {
+    if (editorPlatforms[i].collisionMouse(x, y)) {
       editorPlatforms[i].isDraggable = true;
+      editorObjectGetData(editorPlatforms[i]);
+      return;
+    }
+  }
+
+  for (let i = 0; i < editorCollecteds.length; i++) {
+    if (editorCollecteds[i].collisionMouse(x, y)) {
+      editorCollecteds[i].isDraggable = true;
+      editorObjectGetData(editorCollecteds[i]);
       return;
     }
   }
 });
 
-window.addEventListener("mouseup", function (event) {
+window.addEventListener("mouseup", function () {
   for (let i = 0; i < editorPlatforms.length; i++) {
     editorPlatforms[i].isDraggable = false;
+    editorObjectDefault();
+  }
+
+  for (let i = 0; i < editorCollecteds.length; i++) {
+    editorCollecteds[i].isDraggable = false;
+    editorObjectDefault();
   }
 });
 
@@ -79,10 +179,18 @@ window.addEventListener("mousemove", function (event) {
     if (editorPlatforms[i].isDraggable) {
       const platform = editorPlatforms[i];
       platform.setPosition(x - platform.w / 2, y - platform.h / 2);
+      editorObjectGetData(editorPlatforms[i]);
+    }
+  }
+
+  for (let i = 0; i < editorCollecteds.length; i++) {
+    if (editorCollecteds[i].isDraggable) {
+      const collected = editorCollecteds[i];
+      collected.setPosition(x - collected.w / 2, y - collected.h / 2);
+      editorObjectGetData(editorCollecteds[i]);
     }
   }
 });
-
 //#endregion
 
 function switchPanel(openPanel) {
@@ -97,87 +205,78 @@ function switchPanel(openPanel) {
   }
 }
 
+//#region  INPUT
 let keyState = [];
 
 function onKeyDown(event) {
-  keyState[event.key] = true;
+  panelMain.navigate();
+  keyState[event.keyCode] = true;
 }
 
 function onKeyUp(event) {
-  keyState[event.key] = false;
+  keyState[event.keyCode] = false;
 }
 
-function Input() {
-  this.keys = {
-    W: "w",
-    A: "a",
-    S: "s",
-    D: "d",
-    ArrowUp: "ArrowUp",
-    ArrowLeft: "ArrowLeft",
-    ArrowDown: "ArrowDown",
-    ArrowRight: "ArrowRight",
-    Spacebar: " ",
-    1: "1",
-    Tab: "Tab"
-  };
-}
-
-Input.prototype.keyDetect = function () {
-  if (keyState[this.keys.W]) {
+function input() {
+  if (keyState[KEYS.W]) {
     player.y -= 1;
     if (!player.isJumping()) {
       player.jump();
     }
   }
-
-  if (keyState[this.keys.S]) {
+  if (keyState[KEYS.A]) {
     player.y += 1;
-    // if (!player.isJumping()) {
-    //   player.jump();
-    // }
-  }
-  if (keyState[this.keys.A]) {
     if (player.velocityX > -player.speed) {
       player.move(false);
     }
   }
-  if (keyState[this.keys.D]) {
+  if (keyState[KEYS.D]) {
     if (player.velocityX < player.speed) {
       player.move(true);
     }
   }
-
-  if (keyState[this.keys.Tab]) {
-    isEditorMode = true;
+  if (keyState[KEYS.Esc]) {
+    if (!editorOptions.isEditorEnabled && !menuOptions.isMainMenu) {
+      const menuUI = document.getElementById("ui");
+      menuOptions.setMainMenu = true;
+      editorOptions.enableEditorMode = false;
+      menuUI.style.display = "block";
+      gameManager.resize(canvas, context, canvasWidth, canvasHeight);
+    }
   }
-  if (keyState[this.keys[1]]) {
-    editorPlatforms.push(new Platform(15, 15, 150, 20, "red"));
-  }
-};
+}
+//#endregion
 
+//#region UPDATE
 const update = () => {
   context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  if (!isEditorMode) {
+  if (!menuOptions.isMainMenu) {
     player.velocityX *= player.friction;
     player.velocityY += player.gravity;
   }
 
-  input.keyDetect();
+  input();
   gameManager.area(player);
 
-  // platforms.forEach((platform) => platform.draw(context));
-  // platforms.forEach((platform) => player.collision(platform));
+  if (editorCollecteds.length > 0) {
+    editorCollecteds.forEach((collected) => collected.draw(context));
+    editorCollecteds.forEach((collected) => collected.collision(player));
+  }
 
   if (editorPlatforms.length > 0) {
     editorPlatforms.forEach((platform) => platform.draw(context));
     editorPlatforms.forEach((platform) => player.collision(platform));
   }
 
-  player.draw(context);
+  if (!editorOptions.isEditorEnabled && !menuOptions.isMainMenu) {
+    drawLevels(context, player);
+    drawCanvasMessage();
+  }
 
-  if (!isEditorMode) {
+  if (!menuOptions.isMainMenu) {
+    player.draw(context);
+
     player.x += player.velocityX;
     player.y += player.velocityY;
   }
@@ -186,3 +285,4 @@ const update = () => {
 };
 
 update();
+//#endregion

@@ -17,7 +17,7 @@ body {
 }
 
 svg {
-  display: none;
+  display: block;
   max-height: 100vh;
   width: auto;
   overflow: visible;
@@ -36,20 +36,16 @@ text, rect {
   dominant-baseline: middle;
 }
 
-#canvas-wrapper {
-  position: relative;
-
-}
 
 #canvas {
   background: rgb(36, 36, 36);
 }
 
 #canvas {
-  position: relative;
-  top: 20px;
-  left: 35px;
-
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .message {
@@ -59,7 +55,7 @@ text, rect {
 }
 
 #ui {
-  display: none;
+  display: block;
   z-index: 9;
   /* overflow: hidden; */
 }
@@ -91,13 +87,20 @@ text, rect {
 }
 
 
-#editor {
+.editor {
   z-index: 99;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.editor.hide{
+  opacity: 0;
+  pointer-events: none;
 }
 
 #editor-top {
@@ -111,7 +114,7 @@ text, rect {
   background: rgb(62, 77, 109);
 }
 
-#editor-top button{
+#editor-top button {
   font-size: 17px;
   padding: 5px;
 }
@@ -134,7 +137,6 @@ text, rect {
 
 #scene-objects {
   border-bottom: 2px solid rgb(187, 187, 187);
-  padding-bottom: 30px;
 }
 
 .scene-objects-title {
@@ -146,7 +148,7 @@ text, rect {
   background: white;
 }
 
-.top-title{
+.top-title {
   margin: 30px 0px 0px 0;
 }
 
@@ -168,12 +170,13 @@ text, rect {
   border-bottom: 2px solid rgb(246, 70, 0);
 }
 
-.scene-objects-title-sub{
+.scene-objects-title-sub {
   padding-left: 10px;
   padding: 5px;
   margin: 5px 30px;
   color: white;
-  background: rgb(246, 70, 0);;
+  background: rgb(246, 70, 0);
+  ;
 }
 
 .scene-objects-items {
@@ -187,7 +190,7 @@ text, rect {
   background: green;
 }
 
-#editMode{
+#editMode {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -198,4 +201,38 @@ text, rect {
   color: white;
   font-weight: bold;
   background: rgb(172, 34, 34);
+}
+
+#editor-addObject {
+  display: none;
+  position: absolute;
+  width: 300px;
+  height: 235px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgb(182, 182, 182);
+  background: rgb(62, 77, 109);
+}
+
+#editor-addObject-title {
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 20px;
+  border-bottom: 1px solid white;
+}
+
+#close-addObject {
+  color: white;
+  float: right;
+  background: red;
+}
+
+.editor-addObject-items{
+  margin: 5px 10px;
+  width: calc(100% - 20px);
+  height: 35px;
+  font-size: 17px;
 }

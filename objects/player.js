@@ -22,19 +22,6 @@ export default class Player extends Object {
     super.draw(context);
   }
 
-  collected(obj) {
-    if (
-      this.x + this.w > obj.x &&
-      this.x < obj.x + obj.w &&
-      this.y + this.h > obj.y &&
-      this.y < obj.y + obj.h
-    ) {
-      this.w = 36;
-      this.h = 36;
-      this.color = "yellow";
-    }
-  }
-
   collision(obj) {
     if (
       this.x + this.w < obj.x ||
@@ -107,7 +94,7 @@ export default class Player extends Object {
 
   ground() {
     const gameManager = new GameManager();
-    
+
     if (this.y > gameManager.height - 56) {
       this.isJump = false;
       this.y = gameManager.height - 56;
