@@ -1,3 +1,3 @@
 # Platformer on JS with EDITOR
 
-![img()]
+![img(https://github.com/paveldrobny/PlatformerJS/blob/master/mainMenu.png)]
