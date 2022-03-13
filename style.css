@@ -13,6 +13,7 @@ body {
   display: flex;
   line-height: 1.4;
   margin: 0;
+  overflow: hidden;
   background: #000000;
 }
 
