@@ -16,10 +16,6 @@ body {
   background: #000000;
 }
 
-svg:active {
-  background: rgb(51, 51, 51)
-}
-
 svg {
   display: block;
   max-height: 100vh;
