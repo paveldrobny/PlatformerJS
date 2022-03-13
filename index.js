@@ -82,6 +82,8 @@ btnEditorClose.addEventListener("click", function () {
   menuUI.style.display = "block";
   editorCollecteds = [];
   editorPlatforms = [];
+  player.x = 50;
+  player.y = 600;
   gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
 
