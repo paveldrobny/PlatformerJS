@@ -9,11 +9,15 @@ html, body {
 }
 
 body {
-  background: #000000;
   align-items: center;
   display: flex;
   line-height: 1.4;
   margin: 0;
+  background: #000000;
+}
+
+svg:active {
+  background: rgb(51, 51, 51)
 }
 
 svg {
@@ -35,7 +39,6 @@ text, rect {
   text-anchor: middle;
   dominant-baseline: middle;
 }
-
 
 #canvas {
   background: rgb(36, 36, 36);
@@ -98,7 +101,7 @@ text, rect {
   pointer-events: all;
 }
 
-.editor.hide{
+.editor.hide {
   opacity: 0;
   pointer-events: none;
 }
@@ -230,9 +233,14 @@ text, rect {
   background: red;
 }
 
-.editor-addObject-items{
+.editor-addObject-items {
   margin: 5px 10px;
   width: calc(100% - 20px);
   height: 35px;
   font-size: 17px;
+}
+
+#close-message{
+  color: white;
+  font-weight: bold;
 }

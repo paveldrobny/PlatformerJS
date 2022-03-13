@@ -57,8 +57,6 @@ const editorObjectWidth = document.getElementById("editor-width");
 const editorObjectHeight = document.getElementById("editor-height");
 
 const uiEditorAddObject = document.getElementById("editor-addObject");
-// const btnEditorPlay = document.getElementById("editor-play");
-const btnEditorClose = document.getElementById("editor-close");
 const btnOpenAddObject = document.getElementById("open-addObject");
 const btnCloseAddObject = document.getElementById("close-addObject");
 const btnAddObjectVertical = document.getElementById("editor-add-vertical");
@@ -67,25 +65,6 @@ const btnAddAbilitySmall = document.getElementById("editor-add-ability-small");
 const btnAddAbilityNormal = document.getElementById(
   "editor-add-ability-normal"
 );
-
-// btnEditorPlay.addEventListener("click", function () {
-//   isEditorMode = false;
-// });
-
-btnEditorClose.addEventListener("click", function () {
-  const editorUI = document.getElementsByClassName("editor");
-  const menuUI = document.getElementById("ui");
-
-  menuOptions.setMainMenu = true;
-  editorOptions.enableEditorMode = false;
-  editorUI[0].classList.add("hide");
-  menuUI.style.display = "block";
-  editorCollecteds = [];
-  editorPlatforms = [];
-  player.x = 50;
-  player.y = 600;
-  gameManager.resize(canvas, context, canvasWidth, canvasHeight);
-});
 
 btnOpenAddObject.addEventListener("click", function () {
   uiEditorAddObject.style.display = "block";
@@ -238,9 +217,17 @@ function input() {
     }
   }
   if (keyState[KEYS.Esc]) {
-    if (!editorOptions.isEditorEnabled && !menuOptions.isMainMenu) {
+    if (!menuOptions.isMainMenu) {
+      const editorUI = document.getElementsByClassName("editor");
       const menuUI = document.getElementById("ui");
       menuOptions.setMainMenu = true;
+
+      if (editorOptions.isEditorEnabled) {
+        editorUI[0].classList.add("hide");
+        player.x = 30;
+        player.y = 600;
+      }
+      
       editorOptions.enableEditorMode = false;
       menuUI.style.display = "block";
       gameManager.resize(canvas, context, canvasWidth, canvasHeight);
