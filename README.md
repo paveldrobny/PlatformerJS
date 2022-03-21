@@ -3,7 +3,7 @@
 Demo: https://paveldrobny.github.io/PlatformerJS/
 
 ## 21.03.2022
-### Game version: 1.2, Editor version: 0.45
+### Game version: 1.2 , Editor version: 0.45
 
 - Added
   - Menu menu
