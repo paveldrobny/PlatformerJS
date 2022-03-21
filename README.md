@@ -16,7 +16,7 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
     - Outline on selected object
 - Fixed
   - Levels
-    - draw levels 
+    - Draw levels 
 
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/editor.png)
 
