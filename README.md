@@ -10,7 +10,7 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
   - Levels
     - Save, load and reset functions
   - Editor
-    - Change UI
+    - UI style
     - Outline on selected object
 - Fixed
   - Levels
