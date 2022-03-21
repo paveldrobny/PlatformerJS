@@ -1,35 +1,69 @@
 export const menuOptions = {
-  mainMenu: true,
+  _mainMenu: true,
 
-  get isMainMenu() {
-    return this.mainMenu;
+  get mainMenu() {
+    return this._mainMenu;
   },
 
-  set setMainMenu(value) {
-    this.mainMenu = value;
+  set mainMenu(value) {
+    this._mainMenu = value;
   }
 };
 
 export const editorOptions = {
-  isEditorMode: false,
+  _enabled: false,
 
-  get isEditorEnabled() {
-    return this.isEditorMode;
+  get enabled() {
+    return this._enabled;
   },
 
-  set enableEditorMode(value) {
-    this.isEditorMode = value;
+  set enabled(value) {
+    this._enabled = value;
   }
 };
 
 export const levelOptions = {
-  currentLevel: 0,
+  _levels: [],
+  _currentLevel: 0,
 
-  get currentLvl() {
-    return this.currentLevel;
+  resetLevel() {
+    localStorage.setItem("currentLevel", 0);
   },
 
-  set changeLvl(value) {
-    this.currentLevel = value;
+  saveLevel() {
+    localStorage.setItem("currentLevel", this._currentLevel);
+  },
+
+  loadLevel() {
+    this._currentLevel = Number(localStorage.getItem("currentLevel"));
+  },
+
+  get levels() {
+    return this._levels;
+  },
+
+  set levels(value) {
+    this._levels = value;
+  },
+
+  get currentLevel() {
+    return this._currentLevel;
+  },
+
+  set currentLevel(value) {
+    this._currentLevel = value;
+  }
+};
+
+export const playerOptions = {
+  _size: 56,
+  _speed: 11,
+
+  get size() {
+    return this._size;
+  },
+
+  get speed() {
+    return this._speed;
   }
 };

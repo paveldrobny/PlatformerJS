@@ -161,6 +161,7 @@ window.addEventListener("mousemove", function (event) {
       const platform = editorPlatforms[i];
       platform.setPosition(x - platform.w / 2, y - platform.h / 2);
       editorObjectGetData(editorPlatforms[i]);
+      platform.selected(context);
     }
   }
 
@@ -217,12 +218,12 @@ function input() {
     }
   }
   if (keyState[KEYS.Esc]) {
-    if (!menuOptions.isMainMenu) {
+    if (!menuOptions.mainMenu) {
       const editorUI = document.getElementsByClassName("editor");
       const menuUI = document.getElementById("ui");
-      menuOptions.setMainMenu = true;
+      menuOptions.mainMenu = true;
 
-      if (editorOptions.isEditorEnabled) {
+      if (editorOptions.enabled) {
         editorUI[0].classList.add("hide");
         player.x = 30;
         player.y = 600;
@@ -230,7 +231,7 @@ function input() {
         editorPlatforms = [];
       }
 
-      editorOptions.enableEditorMode = false;
+      editorOptions.enabled = false;
       menuUI.style.display = "block";
       gameManager.resize(canvas, context, canvasWidth, canvasHeight);
     }
@@ -242,7 +243,7 @@ function input() {
 const update = () => {
   context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  if (!menuOptions.isMainMenu) {
+  if (!menuOptions.mainMenu) {
     player.velocityX *= player.friction;
     player.velocityY += player.gravity;
   }
@@ -251,21 +252,23 @@ const update = () => {
   gameManager.area(player);
 
   if (editorCollecteds.length > 0) {
+    editorCollecteds.forEach((collected) => collected.selected(context));
     editorCollecteds.forEach((collected) => collected.draw(context));
     editorCollecteds.forEach((collected) => collected.collision(player));
   }
 
   if (editorPlatforms.length > 0) {
+    editorPlatforms.forEach((platform) => platform.selected(context));
     editorPlatforms.forEach((platform) => platform.draw(context));
     editorPlatforms.forEach((platform) => player.collision(platform));
   }
 
-  if (!editorOptions.isEditorEnabled && !menuOptions.isMainMenu) {
+  if (!editorOptions.enabled && !menuOptions.mainMenu) {
     drawLevels(context, player);
     drawCanvasMessage();
   }
 
-  if (!menuOptions.isMainMenu) {
+  if (!menuOptions.mainMenu) {
     player.draw(context);
 
     player.x += player.velocityX;

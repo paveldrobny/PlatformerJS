@@ -37,6 +37,15 @@ text, rect {
   dominant-baseline: middle;
 }
 
+:root {
+  --editor-bg: rgb(19, 19, 19);
+  --editor-border: rgb(88, 88, 88);
+  --editor-primary-btn: rgb(41, 41, 41);
+  --editor-text: rgb(231, 231, 231);
+  --editor-primary-btn-hover: rgb(65, 65, 65);
+  --editor-info: rgb(59, 59, 59);
+}
+
 #canvas {
   background: rgb(36, 36, 36);
 }
@@ -50,7 +59,7 @@ text, rect {
 
 .message {
   text-anchor: start;
-  font-size: 21px;
+  font-size: 19px;
   fill: rgb(206, 206, 206);
 }
 
@@ -68,12 +77,13 @@ text, rect {
 }
 
 #title {
-  font-size: 100px;
+  font-size: 90px;
   font-weight: 700;
   letter-spacing: 3px;
 }
 
 .items {
+  font-size: 21px;
   transition: .3s;
   opacity: 0.5;
 }
@@ -81,12 +91,12 @@ text, rect {
 .items.selected {
   font-size: 27px;
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   fill: red;
   opacity: 1;
 }
 
-
+/* EDITOR */
 .editor {
   z-index: 99;
   position: absolute;
@@ -106,37 +116,49 @@ text, rect {
 #editor-top {
   position: absolute;
   top: 0;
-  width: calc(100% - 250px);
+  width: calc(100% - 230px);
   height: 45px;
   line-height: 42px;
-  padding-left: 10px;
-  border-bottom: 2px solid rgb(187, 187, 187);
-  background: rgb(62, 77, 109);
+  padding-left: 7px;
+  border-bottom: 2px solid var(--editor-border);
+  background: var(--editor-bg)
 }
 
 #editor-top button {
+  cursor: pointer;
+  border: none;
   font-size: 17px;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 #editor-top-content {
   float: right;
-  margin-right: 5px;
+  margin-right: 10px;
   line-height: 40px;
+}
+
+#open-addObject {
+  color: var(--editor-text);
+  border-radius: 1px;
+  background: var(--editor-primary-btn);
+}
+
+#open-addObject:hover {
+  background: var(--editor-primary-btn-hover);
 }
 
 #editor-right {
   top: -35px;
   float: right;
   bottom: 0px;
-  width: 250px;
+  width: 230px;
   height: 100%;
-  border-left: 2px solid rgb(187, 187, 187);
-  background: rgb(62, 77, 109);
+  border-left: 2px solid var(--editor-border);
+  background: var(--editor-bg)
 }
 
 #scene-objects {
-  border-bottom: 2px solid rgb(187, 187, 187);
+  border-bottom: 2px solid var(--editor-border);
 }
 
 .scene-objects-title {
@@ -160,84 +182,102 @@ text, rect {
   line-height: 30px;
   font-weight: bold;
   margin-bottom: 10px;
-  background: rgb(241, 220, 24);
+  color: white;
+  background: rgba(0, 119, 255, 0.8);
 }
 
 .scene-objects-title-main-sub {
-  color: white;
+  color: var(--editor-text);
   padding: 5px;
   margin: 10px;
-  border-bottom: 2px solid rgb(246, 70, 0);
+  border-bottom: 2px solid var(--editor-text);
 }
 
 .scene-objects-title-sub {
   padding-left: 10px;
-  padding: 5px;
-  margin: 5px 30px;
-  color: white;
-  background: rgb(246, 70, 0);
+  padding: 7px 10px;
+  margin: 7px 20px;
+  color: var(--editor-text);
   ;
+  border-radius: 5px;
+  background: var(--editor-info);
 }
 
 .scene-objects-items {
   margin: 5px;
-  padding: 5px;
-  color: rgb(255, 255, 255);
-  background: rgba(156, 156, 156, 0.5);
-}
-
-.scene-objects-items.selected {
-  background: green;
+  padding: 5px 8px;
+  border-radius: 3px;
+  color: var(--editor-text);
+  background: var(--editor-info);
 }
 
 #editMode {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 248px;
+  width: 228px;
   padding: 10px;
   text-align: center;
   font-weight: bold;
   color: white;
-  font-weight: bold;
-  background: rgb(172, 34, 34);
+  background: rgba(195, 24, 24, 0.45);
 }
 
 #editor-addObject {
   display: none;
   position: absolute;
   width: 300px;
-  height: 235px;
+  height: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 2px solid rgb(182, 182, 182);
-  background: rgb(62, 77, 109);
+  border: 2px solid rgb(255, 255, 255);
+  background: var(--editor-bg)
 }
 
-#editor-addObject-title {
+#add-object-title {
+  position: relative;
+  top: -1px;
   text-align: center;
   color: white;
   font-size: 16px;
   font-weight: bold;
-  margin: 10px 20px;
+  color: black;
+  line-height: 30px;
   border-bottom: 1px solid white;
+  background: white;
 }
 
 #close-addObject {
   color: white;
+  position: relative;
+  top: 1px;
+  width: 30px;
+  height: 30px;
   float: right;
   background: red;
 }
 
-.editor-addObject-items {
-  margin: 5px 10px;
-  width: calc(100% - 20px);
-  height: 35px;
-  font-size: 17px;
+#add-object-item-wrapper {
+  padding: 15px;
 }
 
-#close-message{
+.add-object-items {
+  margin: 5px 0;
+  width: 100%;
+  height: 45px;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 8px;
+  color: var(--editor-text);
+  background: var(--editor-primary-btn);
+}
+
+.add-object-items:hover {
+  border: 3px solid rgb(0, 178, 248);
+}
+
+#close-message {
   color: white;
-  font-weight: bold;
+  font-weight: 400;
 }

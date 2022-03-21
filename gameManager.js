@@ -32,7 +32,7 @@ export default class GameManager {
     context.msImageSmoothingEnabled = true;
     context.imageSmoothingEnabled = true;
 
-    if (editorOptions.isEditorEnabled) {
+    if (editorOptions.enabled) {
       canvas.style.top = `${canvasHeight / 2 + 20}px`;
       canvas.style.left = `${canvasWidth / 2 - 110}px`;
       canvas.style.width = `${canvasWidth - 255}px`;

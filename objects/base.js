@@ -4,14 +4,28 @@ export default class ObjectBase {
     this.y = y;
     this.w = 0;
     this.h = 0;
-    this.color = color;
     this.speed = 0;
+    this.color = color;
+    this.outlineSize = 10;
+    this.outlineColor = "#00aeff";
     this.isDraggable = false;
   }
 
   draw(context) {
     context.fillStyle = this.color;
     context.fillRect(this.x, this.y, this.w, this.h);
+  }
+
+  selected(context) {
+    if (this.isDraggable) {
+      context.fillStyle = this.outlineColor;
+      context.fillRect(
+        this.x - this.outlineSize / 2,
+        this.y - this.outlineSize / 2,
+        this.w + this.outlineSize,
+        this.h + this.outlineSize
+      );
+    }
   }
 
   setPosition(x, y) {
@@ -32,10 +46,7 @@ export default class ObjectBase {
 
   collisionMouse(x, y) {
     return (
-      this.x <= x &&
-      this.x + this.w >= x &&
-      this.y <= y &&
-      this.y + this.h >= y
+      this.x <= x && this.x + this.w >= x && this.y <= y && this.y + this.h >= y
     );
   }
 

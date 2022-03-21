@@ -1,14 +1,15 @@
 import Object from "./base.js";
 import GameManager from "../gameManager.js";
+import { playerOptions } from "../global.js";
 
 export default class Player extends Object {
   constructor(x, y, color) {
     super();
     this.x = x;
     this.y = y;
-    this.w = 56;
-    this.h = 56;
-    this.speed = 11;
+    this.w = playerOptions.size;
+    this.h = playerOptions.size;
+    this.speed = playerOptions.speed;
     this.gravity = 1.3;
     this.friction = 0.8;
     this.velocityX = 0;
@@ -100,5 +101,11 @@ export default class Player extends Object {
       this.y = gameManager.height - 56;
       this.velocityY = 0;
     }
+  }
+
+  reset(){
+    this.w = playerOptions.size;
+    this.h = playerOptions.size;
+    this.speed = playerOptions.speed;
   }
 }

@@ -1,4 +1,3 @@
-import GameManager from "../gameManager.js";
 import { levelOptions } from "../global.js";
 import ObjectBase from "./base.js";
 
@@ -48,10 +47,13 @@ export default class Collected extends ObjectBase {
   }
 
   crystal(obj) {
-    levelOptions.changeLvl = 1;
-    obj.x = 0;
-    obj.y = 600;
-    obj.w = 56;
-    obj.h = 56;
+    if (levelOptions.currentLevel < levelOptions.levels.length - 1) {
+      levelOptions.currentLevel++;
+      levelOptions.saveLevel();
+      obj.x = 0;
+      obj.y = 600;
+      obj.w = 56;
+      obj.h = 56;
+    }
   }
 }

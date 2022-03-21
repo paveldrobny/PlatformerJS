@@ -1,7 +1,7 @@
 export default class PanelBase {
   constructor() {
     this.svgNS = "http://www.w3.org/2000/svg";
-    this.itemsHeight = 45;
+    this.itemsHeight = 41;
   }
 
   create(panelName, titleName, length, itemsID, itemsPositionY, itemsText) {

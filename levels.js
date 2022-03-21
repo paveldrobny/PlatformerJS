@@ -5,8 +5,8 @@ import { levelOptions } from "./global.js";
 const level_1 = {
   platforms: [
     new Platform(153, 521, 150, 20, "red"),
-    new Platform(523, 329, 20, 150, "orange"),
-    new Platform(780, 306, 20, 150, "orange"),
+    new Platform(523, 329, 50, 150, "orange"),
+    new Platform(780, 306, 110, 150, "orange"),
     new Platform(1041, 250, 150, 20, "red")
   ],
   collecteds: [
@@ -24,19 +24,24 @@ const level_2 = {
   collecteds: [new Collected(970, 130, 20, 20, "aqua", "crystal")]
 };
 
-function levelShow(array, context, player) {
-  array.collecteds.forEach((collected) => collected.draw(context));
-  array.collecteds.forEach((collected) => collected.collision(player));
-  array.platforms.forEach((platform) => platform.draw(context));
-  array.platforms.forEach((platform) => player.collision(platform));
-}
+levelOptions.levels.push(level_1, level_2);
 
 function drawLevels(context, player) {
-  if (levelOptions.currentLvl == 0) {
-    levelShow(level_1, context, player);
-  }
-  if (levelOptions.currentLvl == 1) {
-    levelShow(level_2, context, player);
+  for (let i = 0; i < levelOptions.levels.length; i++) {
+    if (i == levelOptions.currentLevel) {
+      levelOptions.levels[i].collecteds.forEach((collected) =>
+        collected.draw(context)
+      );
+      levelOptions.levels[i].collecteds.forEach((collected) =>
+        collected.collision(player)
+      );
+      levelOptions.levels[i].platforms.forEach((platform) =>
+        platform.draw(context)
+      );
+      levelOptions.levels[i].platforms.forEach((platform) =>
+        player.collision(platform)
+      );
+    }
   }
 }
 

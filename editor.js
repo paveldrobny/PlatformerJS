@@ -7,7 +7,7 @@ export default class Editor {
 
   addPlatform(isVertical, array) {
     if (isVertical) {
-      array.push(new Platform(15, 15, 20, 150, "orange"));
+      array.push(new Platform(15, 15, 20, 150, "pink"));
       return;
     }
     array.push(new Platform(50, 15, 150, 20, "red"));
