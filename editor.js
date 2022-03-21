@@ -14,7 +14,7 @@ export default class Editor {
   }
 
   addAbilitySmall(array) {
-    array.push(new Collected(215, 15, 30, 30, "pink", "smallSize"));
+    array.push(new Collected(215, 15, 30, 30, "violet", "smallSize"));
   }
 
   addAbilityNormal(array){

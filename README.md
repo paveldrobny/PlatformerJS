@@ -3,6 +3,7 @@
 Demo: https://paveldrobny.github.io/PlatformerJS/
 
 ## 21.03.2022
+### Game version: 1.2 , Editor version: 0.45
 
 - Added
   - Menu menu
@@ -14,7 +15,7 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
     - Outline on selected object
 - Fixed
   - Levels
-    - draw levels 
+    - Draw levels 
 
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/editor.png)
 
