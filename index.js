@@ -7,7 +7,6 @@ import { drawLevels } from "./levels.js";
 import {
   editorOptions,
   gameOptions,
-  levelOptions,
   menuOptions
 } from "./global.js";
 
@@ -296,12 +295,10 @@ let keyState = [];
 
 function onKeyDown(event) {
   panelMain.navigate();
-  event.preventDefault();
   keyState[event.keyCode] = true;
 }
 
 function onKeyUp(event) {
-  event.preventDefault();
   keyState[event.keyCode] = false;
 }
 
