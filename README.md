@@ -17,21 +17,6 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
   - Main menu
     - Navigation worked after the menu was hidden
 
-## 21.03.2022
-### Game version: 1.2 , Editor version: 0.45
-
-- Added
-  - Main menu
-    - New game, continue
-  - Levels
-    - Save, load and reset functions
-  - Editor
-    - UI style
-    - Outline on selected object
-- Fixed
-  - Levels
-    - Draw levels 
-
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/exportLevel.png)
 
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/editor.png)
