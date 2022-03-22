@@ -1,4 +1,4 @@
-import { levelOptions } from "../global.js";
+import { levelOptions, playerOptions } from "../global.js";
 import ObjectBase from "./base.js";
 
 export default class Collected extends ObjectBase {
@@ -42,16 +42,20 @@ export default class Collected extends ObjectBase {
   }
 
   normalSize(object) {
-    object.w = 56;
-    object.h = 56;
+    object.w = playerOptions.size;
+    object.h = playerOptions.size;
   }
 
   crystal(obj) {
     if (levelOptions.currentLevel < levelOptions.levels.length - 1) {
       levelOptions.currentLevel++;
       levelOptions.saveLevel();
-      obj.x = 0;
-      obj.y = 600;
+
+      let playerPosition =
+        levelOptions.levels[levelOptions.currentLevel].player;
+
+      obj.x = playerPosition.x;
+      obj.y = playerPosition.y;
       obj.w = 56;
       obj.h = 56;
     }

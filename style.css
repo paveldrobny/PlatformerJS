@@ -27,6 +27,10 @@ svg {
     vertical-align: middle; */
 }
 
+button {
+  user-select: none;
+}
+
 svg text {
   font-size: 21px;
   fill: white;
@@ -84,14 +88,14 @@ text, rect {
 
 .items {
   font-size: 21px;
-  transition: .3s;
+  transition: .27s;
+  font-weight: 900;
+  letter-spacing: 1px;
   opacity: 0.5;
 }
 
 .items.selected {
   font-size: 27px;
-  font-weight: 900;
-  letter-spacing: 1px;
   fill: red;
   opacity: 1;
 }
@@ -137,14 +141,22 @@ text, rect {
   line-height: 40px;
 }
 
-#open-addObject {
+.editor-btn {
   color: var(--editor-text);
-  border-radius: 1px;
+  border-radius: 2px;
   background: var(--editor-primary-btn);
 }
 
-#open-addObject:hover {
+.editor-btn:hover {
   background: var(--editor-primary-btn-hover);
+}
+
+#playing {
+  background: rgb(5, 121, 5);
+}
+
+#playing.active {
+  background: rgb(187, 14, 14);
 }
 
 #editor-right {
@@ -223,7 +235,7 @@ text, rect {
   background: rgba(195, 24, 24, 0.45);
 }
 
-#editor-addObject {
+.editor-popup {
   display: none;
   position: absolute;
   width: 300px;
@@ -235,7 +247,7 @@ text, rect {
   background: var(--editor-bg)
 }
 
-#add-object-title {
+.editor-popup-title {
   position: relative;
   top: -1px;
   text-align: center;
@@ -280,4 +292,37 @@ text, rect {
 #close-message {
   color: white;
   font-weight: 400;
+}
+
+#editor-export {
+  width: 600px !important;
+}
+
+#editor-export-message {
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 0 10px 0;
+  color: rgb(197, 44, 44);
+}
+
+#editor-export-text {
+  user-select: all;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  color: rgb(212, 212, 212);
+}
+
+#editor-export-text:hover {
+  background: rgb(44, 44, 44);
+}
+
+#close-exportLevel {
+  color: white;
+  position: relative;
+  top: 1px;
+  width: 30px;
+  height: 30px;
+  float: right;
+  background: red;
 }

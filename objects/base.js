@@ -6,7 +6,7 @@ export default class ObjectBase {
     this.h = 0;
     this.speed = 0;
     this.color = color;
-    this.outlineSize = 10;
+    this.outlineSize = 6;
     this.outlineColor = "#00aeff";
     this.isDraggable = false;
   }
@@ -50,7 +50,7 @@ export default class ObjectBase {
     );
   }
 
-  move(isForward) {
+  moveDirection(isForward) {
     isForward ? (this.x += this.speed) : (this.x -= this.speed);
   }
 }

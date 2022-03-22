@@ -17,6 +17,7 @@ export default class Player extends Object {
     this.color = color;
     this.isJump = false;
     this.isGrounded = true;
+    this.name = "Player";
   }
 
   draw(context) {
@@ -80,8 +81,8 @@ export default class Player extends Object {
     }
   }
 
-  move(isForward) {
-    super.move(isForward);
+  moveDirection(isForward) {
+    super.moveDirection(isForward);
   }
 
   isJumping() {
@@ -103,7 +104,7 @@ export default class Player extends Object {
     }
   }
 
-  reset(){
+  reset() {
     this.w = playerOptions.size;
     this.h = playerOptions.size;
     this.speed = playerOptions.speed;

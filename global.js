@@ -10,8 +10,26 @@ export const menuOptions = {
   }
 };
 
+export const gameOptions = {
+  _startGame: false,
+
+  get startGame() {
+    return this._startGame;
+  },
+
+  set startGame(value) {
+    this._startGame = value;
+  }
+};
+
 export const editorOptions = {
   _enabled: false,
+  _playing: false,
+  _level: {
+    player: { x: 0, y: 0 },
+    platforms: [],
+    collecteds: []
+  },
 
   get enabled() {
     return this._enabled;
@@ -19,6 +37,22 @@ export const editorOptions = {
 
   set enabled(value) {
     this._enabled = value;
+  },
+
+  get playing() {
+    return this._playing;
+  },
+
+  set playing(value) {
+    this._playing = value;
+  },
+
+  get level() {
+    return this._level;
+  },
+
+  set level(value) {
+    this._level = value;
   }
 };
 

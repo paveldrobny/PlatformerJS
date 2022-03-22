@@ -3,6 +3,10 @@ import Collected from "./objects/collected.js";
 import { levelOptions } from "./global.js";
 
 const level_1 = {
+  player: {
+    x: 60,
+    y: 60
+  },
   platforms: [
     new Platform(153, 521, 150, 20, "red"),
     new Platform(523, 329, 50, 150, "orange"),
@@ -16,6 +20,10 @@ const level_1 = {
 };
 
 const level_2 = {
+  player: {
+    x: 1000,
+    y: 600
+  },
   platforms: [
     new Platform(593, 521, 150, 20, "red"),
     new Platform(300, 321, 150, 20, "red"),

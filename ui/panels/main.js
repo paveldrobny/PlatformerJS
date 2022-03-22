@@ -1,7 +1,14 @@
 import PanelBase from "./base.js";
 import keys from "../../keys.js";
-import { editorOptions, levelOptions, menuOptions } from "../../global.js";
+import {
+  editorOptions,
+  gameOptions,
+  levelOptions,
+  menuOptions
+} from "../../global.js";
 import GameManager from "../../gameManager.js";
+import MessageVersion from "../messages/version.js";
+import MessageNavigate from "../messages/navigate.js";
 
 export default class PanelMain extends PanelBase {
   constructor() {
@@ -21,6 +28,12 @@ export default class PanelMain extends PanelBase {
       this.itemsPositionY,
       this.itemsText
     );
+
+    const messageVersion = new MessageVersion();
+    const messageNavigate = new MessageNavigate();
+
+    messageNavigate.create();
+    messageVersion.create();
   }
 
   navigate() {
@@ -35,7 +48,9 @@ export default class PanelMain extends PanelBase {
     }
 
     if (event.keyCode == keys.Enter || event.keyCode == keys.Spacebar) {
-      this.choose();
+      if(menuOptions.mainMenu){
+        this.choose();
+      }
     }
 
     super.navigate("main", this.menuIndex);
@@ -66,14 +81,18 @@ export default class PanelMain extends PanelBase {
         this.startGame(editorUI[0]);
         levelOptions.currentLevel = 0;
         levelOptions.resetLevel();
+        gameOptions.startGame = true;
         break;
       case 1:
         this.startGame(editorUI[0]);
         levelOptions.loadLevel();
+        gameOptions.startGame = true;
         break;
       case 2:
         menuOptions.mainMenu = false;
         this.chooseEditor(ui, editorUI[0]);
+        editorOptions.playing = false;
+        gameOptions.startGame = false;
         break;
     }
   }
