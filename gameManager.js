@@ -39,8 +39,8 @@ export default class GameManager {
       canvas.style.height = `${canvasHeight - 50}px`;
       return;
     }
-    canvas.style.top = "50%"
-    canvas.style.left = "50%"
+    canvas.style.top = "50%";
+    canvas.style.left = "50%";
     canvas.style.width = `${canvasWidth}px`;
     canvas.style.height = `${canvasHeight}px`;
   }
