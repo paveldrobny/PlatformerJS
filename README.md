@@ -18,7 +18,5 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
     - Navigation worked after the menu was hidden
 
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/exportLevel.png)
-
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/editor.png)
-
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/mainMenu.png)
