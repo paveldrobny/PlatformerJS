@@ -29,8 +29,8 @@ export default class GameManager {
     canvas.height = this.height;
     context.mozImageSmoothingEnabled = true;
     context.webkitImageSmoothingEnabled = true;
-    context.msImageSmoothingEnabled = true;
     context.imageSmoothingEnabled = true;
+    context.msImageSmoothingEnabled = true;
 
     if (editorOptions.enabled) {
       canvas.style.top = `${canvasHeight / 2 + 20}px`;
