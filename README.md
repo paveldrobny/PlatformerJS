@@ -15,6 +15,7 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
       - Color
     - Action
       - Deleted selected object (except player)
+    - Trigger open level
 - Fixed
   - Displaying the canvas in the editor
   
