@@ -17,6 +17,7 @@ export default class Player extends Object {
     this.color = color;
     this.isJump = false;
     this.isGrounded = true;
+    this.type = "Player";
     this.name = "Player";
   }
 

@@ -1,3 +1,5 @@
+import { editorOptions } from "../global.js";
+
 export default class ObjectBase {
   constructor(x, y, color) {
     this.x = x;
@@ -8,6 +10,7 @@ export default class ObjectBase {
     this.color = color;
     this.outlineSize = 6;
     this.outlineColor = "#00aeff";
+    this.type = "none"
     this.isDraggable = false;
   }
 
@@ -17,14 +20,17 @@ export default class ObjectBase {
   }
 
   selected(context) {
-    if (this.isDraggable) {
-      context.fillStyle = this.outlineColor;
-      context.fillRect(
-        this.x - this.outlineSize / 2,
-        this.y - this.outlineSize / 2,
-        this.w + this.outlineSize,
-        this.h + this.outlineSize
+    if (this.isDraggable || editorOptions.selectedObj === this) {
+      context.beginPath();
+      context.lineWidth = 3;
+      context.strokeStyle = this.outlineColor;
+      context.rect(
+        this.x - this.outlineSize / 2 - 3,
+        this.y - this.outlineSize / 2 - 3,
+        this.w + this.outlineSize + 6,
+        this.h + this.outlineSize + 6
       );
+      context.stroke();
     }
   }
 

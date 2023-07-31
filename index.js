@@ -4,11 +4,7 @@ import Player from "./objects/player.js";
 import Editor from "./editor.js";
 import KEYS from "./keys.js";
 import { drawLevels } from "./levels.js";
-import {
-  editorOptions,
-  gameOptions,
-  menuOptions
-} from "./global.js";
+import { editorOptions, gameOptions, menuOptions } from "./global.js";
 
 //#region INIT
 const panelMain = new PanelMain();
@@ -28,14 +24,6 @@ window.addEventListener("load", function () {
   gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
 
-function drawCanvasMessage() {
-  context.font = "15px sans-serif";
-  context.fillStyle = "gray";
-  context.textAlign = "left";
-  context.fillText("Press ESC to return to the main menu", 10, 20);
-  context.fillText("Press A,D,W to move", 10, 45);
-}
-
 window.addEventListener("resize", function () {
   gameManager.resize(canvas, context, canvasWidth, canvasHeight);
 });
@@ -50,6 +38,7 @@ const editorObjectPosX = document.getElementById("editor-posX");
 const editorObjectPosY = document.getElementById("editor-posY");
 const editorObjectWidth = document.getElementById("editor-width");
 const editorObjectHeight = document.getElementById("editor-height");
+const editorObjectColor = document.getElementById("editor-color");
 const uiEditorAddObject = document.getElementById("editor-addObject");
 const btnOpenAddObject = document.getElementById("open-addObject");
 const btnCloseAddObject = document.getElementById("close-addObject");
@@ -59,9 +48,11 @@ const btnAddAbilitySmall = document.getElementById("editor-add-ability-small");
 const btnAddAbilityNormal = document.getElementById(
   "editor-add-ability-normal"
 );
+const btnAddTriggerLevel = document.getElementById("editor-add-trigger-level");
 const btnOpenExportLevel = document.getElementById("open-export-level");
 const btnCloseExportLevel = document.getElementById("close-exportLevel");
 const btnPlaying = document.getElementById("playing");
+const btnDeleteObj = document.getElementById("btn-delete-obj");
 
 btnOpenAddObject.addEventListener("click", function () {
   uiEditorAddObject.style.display = "block";
@@ -76,22 +67,33 @@ const sceneObjectAbility = document.getElementById("scene-objects-ability");
 
 btnAddObjectVertical.addEventListener("click", function () {
   editor.addPlatform(true, editorOptions.level.platforms);
-  sceneObjectPlatform.innerHTML = `Platforms: ${editorOptions.level.platforms.length}`;
+  sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
 });
 
 btnAddObjectHorizontal.addEventListener("click", function () {
   editor.addPlatform(false, editorOptions.level.platforms);
-  sceneObjectPlatform.innerHTML = `Platforms: ${editorOptions.level.platforms.length}`;
+  sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
 });
 
 btnAddAbilitySmall.addEventListener("click", function () {
   editor.addAbilitySmall(editorOptions.level.collecteds);
-  sceneObjectAbility.innerHTML = `Collecteds: ${editorOptions.level.collecteds.length}`;
+  sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
 });
 
 btnAddAbilityNormal.addEventListener("click", function () {
   editor.addAbilityNormal(editorOptions.level.collecteds);
-  sceneObjectAbility.innerHTML = `Collecteds: ${editorOptions.level.collecteds.length}`;
+  sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+});
+
+btnAddTriggerLevel.addEventListener("click", function () {
+  for (let i = 0; i < editorOptions.level.collecteds.length; i++) {
+    if (editorOptions.level.collecteds[i].state === "crystal") {
+      return;
+    }
+  }
+
+  editor.addCrystal(editorOptions.level.collecteds);
+  sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
 });
 
 btnOpenExportLevel.addEventListener("click", function () {
@@ -117,6 +119,20 @@ btnPlaying.addEventListener("click", function () {
   }
 });
 
+btnDeleteObj.addEventListener("click", () => {
+  console.log(editorOptions.selectedObj.name);
+  if (editorOptions.selectedObj.type === "Platform") {
+    console.log(`${editorOptions.selectedObj.name} was deleted!`);
+    editor.removeObj(editorOptions.selectedObj, editorOptions.level.platforms);
+    sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
+  }
+  if (editorOptions.selectedObj.type === "Collected") {
+    console.log(`${editorOptions.selectedObj.name} was deleted!`);
+    editor.removeObj(editorOptions.selectedObj, editorOptions.level.collecteds);
+    sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+  }
+});
+
 function exportLevel() {
   const exportLevelText = document.getElementById("editor-export-text");
   const editorPlatforms = editorOptions.level.platforms;
@@ -125,7 +141,7 @@ function exportLevel() {
   const exportLevelTextStart = "const level_number = { <br>";
   const exportLevelTextPlayer = `player: {
     x: ${player.x.toFixed(1)},
-    y: ${player.y.toFixed(1) - 30}
+    y: ${player.y.toFixed(1)}
     },`;
 
   let exportLevelTextPlatforms = "<br> platforms: [";
@@ -167,26 +183,56 @@ function exportLevel() {
   }
 }
 
-function editorObjectGetData(object, isCollected) {
-  editorObjectCurrent.innerHTML = object.name;
-
-  if (isCollected) {
-    editorObjectCurrent.innerHTML = `${object.name} - ${object.state}`;
+function editorObjectGetData(object) {
+  // if player selected disable width and height input
+  if (object.name == "Player") {
+    editorObjectWidth.disabled = true;
+    editorObjectHeight.disabled = true;
+    btnDeleteObj.disabled = true;
+  } else {
+    editorObjectWidth.disabled = false;
+    editorObjectHeight.disabled = false;
+    btnDeleteObj.disabled = false;
   }
 
-  editorObjectPosX.innerHTML = `X: ${object.x.toFixed(1)}`;
-  editorObjectPosY.innerHTML = `Y: ${object.y.toFixed(1)}`;
-  editorObjectWidth.innerHTML = `Width: ${object.w.toFixed(1)} px`;
-  editorObjectHeight.innerHTML = `Height: ${object.h.toFixed(1)} px`;
+  // if collected selected show type
+  if (object.state !== undefined) {
+    editorObjectCurrent.innerHTML = `${object.name} - ${object.state}`;
+  } else {
+    editorObjectCurrent.innerHTML = object.name;
+  }
+
+  editorObjectPosX.value = `${object.x.toFixed(1)}`;
+  editorObjectPosY.value = `${object.y.toFixed(1)}`;
+  editorObjectWidth.value = `${object.w.toFixed(1)}`;
+  editorObjectHeight.value = `${object.h.toFixed(1)}`;
+  editorObjectColor.value = `${object.color}`;
 }
 
-function editorObjectDefault() {
-  editorObjectCurrent.innerHTML = "{no selected}";
-  editorObjectPosX.innerHTML = "X: {no selected}";
-  editorObjectPosY.innerHTML = "Y: {no selected}";
-  editorObjectWidth.innerHTML = "Width: {no selected}";
-  editorObjectHeight.innerHTML = "Height: {no selected}";
-}
+editorObjectPosX.oninput = () => {
+  if (editorOptions.selectedObj)
+    editorOptions.selectedObj.x = Number(editorObjectPosX.value);
+};
+
+editorObjectPosY.oninput = () => {
+  if (editorOptions.selectedObj)
+    editorOptions.selectedObj.y = Number(editorObjectPosY.value);
+};
+
+editorObjectWidth.oninput = () => {
+  if (editorOptions.selectedObj)
+    editorOptions.selectedObj.w = Number(editorObjectWidth.value);
+};
+
+editorObjectHeight.oninput = () => {
+  if (editorOptions.selectedObj)
+    editorOptions.selectedObj.h = Number(editorObjectHeight.value);
+};
+
+editorObjectColor.oninput = () => {
+  if (editorOptions.selectedObj)
+    editorOptions.selectedObj.color = editorObjectColor.value;
+};
 
 function selectObject() {
   const rect = canvas.getBoundingClientRect();
@@ -195,17 +241,19 @@ function selectObject() {
   const x = (event.clientX - rect.left) * scaleX;
   const y = (event.clientY - rect.top) * scaleY;
 
-  if (!editorOptions.playing) {
+  if (editorOptions.playing == false && gameOptions.startGame == false) {
     if (player.collisionMouse(x, y)) {
       player.isDraggable = true;
-      editorObjectGetData(player);
+      editorOptions.selectedObj = player;
+      editorObjectGetData(editorOptions.selectedObj);
       return;
     }
 
     for (let i = 0; i < editorOptions.level.platforms.length; i++) {
       if (editorOptions.level.platforms[i].collisionMouse(x, y)) {
         editorOptions.level.platforms[i].isDraggable = true;
-        editorObjectGetData(editorOptions.level.platforms[i]);
+        editorOptions.selectedObj = editorOptions.level.platforms[i];
+        editorObjectGetData(editorOptions.selectedObj);
         return;
       }
     }
@@ -213,7 +261,8 @@ function selectObject() {
     for (let i = 0; i < editorOptions.level.collecteds.length; i++) {
       if (editorOptions.level.collecteds[i].collisionMouse(x, y)) {
         editorOptions.level.collecteds[i].isDraggable = true;
-        editorObjectGetData(editorOptions.level.collecteds[i], true);
+        (editorOptions.selectedObj = editorOptions.level.collecteds[i]), true;
+        editorObjectGetData(editorOptions.selectedObj);
         return;
       }
     }
@@ -231,7 +280,9 @@ function unSelectObject() {
     editorOptions.level.collecteds[i].isDraggable = false;
   }
 
-  editorObjectDefault();
+  if (editorOptions.selectedObj === null) {
+    editorObjectCurrent.innerHTML = "{no selected}";
+  }
 }
 
 function moveObject() {
@@ -259,23 +310,54 @@ function moveObject() {
       if (editorOptions.level.collecteds[i].isDraggable) {
         const collected = editorOptions.level.collecteds[i];
         collected.setPosition(x - collected.w / 2, y - collected.h / 2);
-        editorObjectGetData(editorOptions.level.collecteds[i], true);
+        editorObjectGetData(editorOptions.level.collecteds[i]);
       }
     }
   }
 }
 
+//EDITOR: select object
 window.addEventListener("mousedown", function () {
   selectObject();
 });
 
+//EDITOR: release object
 window.addEventListener("mouseup", function () {
   unSelectObject();
 });
 
+//EDITOR: move object
 window.addEventListener("mousemove", function () {
   moveObject();
 });
+
+// Close editor
+document.getElementById("close").addEventListener("click", () => {
+  const editorUI = document.getElementsByClassName("editor");
+  const menuUI = document.getElementById("ui");
+
+  btnPlaying.innerHTML = "Play";
+  btnPlaying.classList.remove("active");
+
+  editorOptions.playing = false;
+  editorOptions.enabled = false;
+  editorOptions.level.collecteds = [];
+  editorOptions.level.platforms = [];
+
+  editorObjectPosX.value = 0;
+  editorObjectPosY.value = 0;
+  editorObjectWidth.value = 1;
+  editorObjectHeight.value = 1;
+  editorObjectColor.value = "red";
+
+  editorUI[0].classList.add("hide");
+  player.setPosition(30, 600);
+  menuOptions.mainMenu = true;
+  gameOptions.startGame = false;
+  menuUI.style.display = "block";
+  gameManager.resize(canvas, context, canvasWidth, canvasHeight);
+});
+
 //#endregion
 
 function switchPanel(openPanel) {
@@ -327,22 +409,12 @@ function input() {
   }
   if (keyState[KEYS.Esc]) {
     if (!menuOptions.mainMenu) {
-      const editorUI = document.getElementsByClassName("editor");
+      if (editorOptions.enabled) {
+        return;
+      }
       const menuUI = document.getElementById("ui");
       menuOptions.mainMenu = true;
       gameOptions.startGame = false;
-
-      if (editorOptions.enabled) {
-        btnPlaying.innerHTML = "Play";
-        btnPlaying.classList.remove("active");
-        editorOptions.playing = false;
-        editorUI[0].classList.add("hide");
-        player.setPosition(30, 600)
-        editorOptions.level.collecteds = [];
-        editorOptions.level.platforms = [];
-      }
-
-      editorOptions.enabled = false;
       menuUI.style.display = "block";
       gameManager.resize(canvas, context, canvasWidth, canvasHeight);
     }
@@ -386,7 +458,6 @@ const update = () => {
 
   if (!editorOptions.enabled && !menuOptions.mainMenu) {
     drawLevels(context, player);
-    drawCanvasMessage();
   }
 
   if (editorOptions.enabled && !editorOptions.playing) {

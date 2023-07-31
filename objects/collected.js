@@ -1,4 +1,4 @@
-import { levelOptions, playerOptions } from "../global.js";
+import { editorOptions, gameOptions, levelOptions, playerOptions } from "../global.js";
 import ObjectBase from "./base.js";
 
 export default class Collected extends ObjectBase {
@@ -10,6 +10,7 @@ export default class Collected extends ObjectBase {
     this.h = h;
     this.color = color;
     this.name = "Collected";
+    this.type = "Collected"
     this.state = state;
   }
 
@@ -18,6 +19,7 @@ export default class Collected extends ObjectBase {
   }
 
   collision(obj) {
+    if(gameOptions.startGame === true || editorOptions.playing === true)
     if (
       this.x + this.w > obj.x &&
       this.x < obj.x + obj.w &&

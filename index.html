@@ -1,73 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Platformer on JS with EDITOR</title>
     <link rel="stylesheet" href="./style.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <svg id="ui" viewBox="0 0 1280 720">
-        <g id="main" class="panel">
-        </g>
+      <g id="main" class="panel"></g>
     </svg>
 
     <div class="editor hide">
-        <div id="editor-top">
-            <button id="open-addObject" class="editor-btn">Add new object...</button>
-            <button id="open-export-level" class="editor-btn">Export level...</button>
-            <button id="playing" class="editor-btn">Play</button>
-            <div id="editor-top-content">
-                <div id="close-message"><span style="color: red; font-weight: 900;">ESC</span> &mdash; main menu </div>
-            </div>
+      <div id="editor-top">
+        <button id="open-addObject" class="editor-btn">
+          Add new object...
+        </button>
+        <button id="open-export-level" class="editor-btn">
+          Export level...
+        </button>
+        <div id="playing" class="editor-btn">Play</div>
+        <div id="editor-top-content">
+          <div id="close" class="editor-btn">EXIT</div>
+        </div>
+      </div>
+
+      <div id="editor-addObject" class="editor-popup">
+        <div class="editor-popup-title">
+          ADD OBJECT <button id="close-addObject">X</button>
+        </div>
+        <div id="add-object-item-wrapper">
+          <button id="editor-add-vertical" class="add-object-items">
+            Platform vertical
+          </button>
+          <button id="editor-add-horizontal" class="add-object-items">
+            Platform horizontal
+          </button>
+          <button id="editor-add-ability-small" class="add-object-items">
+            Ability: small size
+          </button>
+          <button id="editor-add-ability-normal" class="add-object-items">
+            Ability: normal size
+          </button>
+          <button id="editor-add-trigger-level" class="add-object-items">
+            Trigger: next level (only 1)
+          </button>
+        </div>
+      </div>
+
+      <div id="editor-export" class="editor-popup">
+        <div class="editor-popup-title">
+          EXPORT LEVEL <button id="close-exportLevel">X</button>
+        </div>
+        <div id="editor-export-message">
+          NOTE: Copy object "level_number" to levels.js
+        </div>
+        <div id="editor-export-scroll">
+          <div id="editor-export-text">level empty..</div>
+        </div>
+      </div>
+
+      <div id="editor-right">
+        <div id="scene-objects">
+          <div class="scene-objects-title">Object in scene</div>
+          <div class="scene-objects-items">
+            <label>Player:</label><label>1</label>
+          </div>
+          <div class="scene-objects-items">
+            <label>Platforms:</label>
+            <label id="scene-objects-platform">0</label>
+          </div>
+          <div class="scene-objects-items">
+            <label>Collecteds:</label>
+            <label id="scene-objects-ability">0</label>
+          </div>
+        </div>
+        <div class="scene-objects-title space-top">Current object</div>
+        <div id="scene-object-scroll">
+          <div id="editor-current" class="scene-objects-title-second">
+            {no selected}
+          </div>
+          <div class="scene-objects-title-main-sub">Coordinates</div>
+          <label class="scene-objects-desc">X</label>
+          <input
+            min="0"
+            type="number"
+            id="editor-posX"
+            class="scene-objects-title-sub"
+          />
+          <label class="scene-objects-desc">Y</label>
+          <input
+            min="0"
+            type="number"
+            id="editor-posY"
+            class="scene-objects-title-sub"
+          />
+          <div class="scene-objects-title-main-sub">Properties</div>
+          <label class="scene-objects-desc">Width</label>
+          <input
+            min="1"
+            type="number"
+            id="editor-width"
+            class="scene-objects-title-sub"
+          />
+          <label class="scene-objects-desc">Height</label>
+          <input
+            min="1"
+            type="number"
+            id="editor-height"
+            class="scene-objects-title-sub"
+          />
+          <label class="scene-objects-desc">Color (rgba, hex)</label>
+          <input id="editor-color" class="scene-objects-title-sub" />
+          <div class="scene-objects-title-main-sub">Actions</div>
+          <button id="btn-delete-obj">Delete current object</button>
         </div>
 
-        <div id="editor-addObject" class="editor-popup">
-            <div class="editor-popup-title">ADD OBJECT <button id="close-addObject">X</button></div>
-            <div id="add-object-item-wrapper">
-                <button id="editor-add-vertical" class="add-object-items">Platform vertical</button>
-                <button id="editor-add-horizontal" class="add-object-items">Platform horizontal</button>
-                <button id="editor-add-ability-small" class="add-object-items">Ability: small size</button>
-                <button id="editor-add-ability-normal" class="add-object-items">Ability: normal size</button>
-            </div>
-        </div>
-
-        <div id="editor-export" class="editor-popup">
-            <div class="editor-popup-title">EXPORT LEVEL <button id="close-exportLevel">X</button></div>
-            <div id="editor-export-message">NOTE: Copy object "level_number" to levels.js</div>
-            <div id="editor-export-text">level empty..</div>
-        </div>
-
-        <div id="editor-right">
-            <div id="scene-objects">
-                <div class="scene-objects-title">Object in scene</div>
-                <div class="scene-objects-items">Player: 1</div>
-                <div id="scene-objects-platform" class="scene-objects-items">Platforms: 0</div>
-                <div id="scene-objects-ability" class="scene-objects-items">Collecteds: 0</div>
-            </div>
-            <div class="scene-objects-title">Current object</div>
-            <div id="editor-current" class="scene-objects-title-second">{no selected}</div>
-            <div class="scene-objects-title-main-sub">Coordinates</div>
-            <div id="editor-posX" class="scene-objects-title-sub">X: {no selected}</div>
-            <div id="editor-posY" class="scene-objects-title-sub">Y: {no selected}</div>
-            <div class="scene-objects-title-main-sub">Properties</div>
-            <div id="editor-width" class="scene-objects-title-sub">Width: {no selected}</div>
-            <div id="editor-height" class="scene-objects-title-sub">Height: {no selected}</div>
-            <div id="editMode">Platformer editor (BETA) <br /> Version: 0.59</div>
-        </div>
+        <div id="editMode">Editor v1.1</div>
+      </div>
     </div>
 
     <canvas id="canvas" />
 
     <script src="./index.js" type="module"></script>
-</body>
-
+  </body>
 </html>

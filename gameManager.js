@@ -17,9 +17,23 @@ export default class GameManager {
     }
   }
 
+  getScale() {
+    return (this.width * 1) / this.width;
+  }
+
   resize(canvas, context, canvasWidth, canvasHeight) {
-    canvasWidth = window.innerWidth;
-    canvasHeight = window.innerHeight;
+    const EDITOR_LEFT_PANEL = 230;
+    const EDITOR_TOP_PANEL = 45;
+    const EDITOR_CANVAS_SPACE = 6;
+
+    if (editorOptions.enabled) {
+      canvasWidth = window.innerWidth - EDITOR_LEFT_PANEL - EDITOR_CANVAS_SPACE;
+      canvasHeight =
+        window.innerHeight - EDITOR_TOP_PANEL - EDITOR_CANVAS_SPACE * 2;
+    } else {
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+    }
 
     if (canvasHeight < canvasWidth / this.aspectRatio) {
       canvasWidth = canvasHeight * this.aspectRatio;
@@ -33,10 +47,12 @@ export default class GameManager {
     context.msImageSmoothingEnabled = true;
 
     if (editorOptions.enabled) {
-      canvas.style.top = `${canvasHeight / 2 + 20}px`;
-      canvas.style.left = `${canvasWidth / 2 - 110}px`;
-      canvas.style.width = `${canvasWidth - 255}px`;
-      canvas.style.height = `${canvasHeight - 50}px`;
+      canvas.style.top = `${
+        canvasHeight / 2 + EDITOR_TOP_PANEL + EDITOR_CANVAS_SPACE
+      }px`;
+      canvas.style.left = `${canvasWidth / 2 + EDITOR_CANVAS_SPACE / 2}px`;
+      canvas.style.width = `${canvasWidth}px`;
+      canvas.style.height = `${canvasHeight}px`;
       return;
     }
     canvas.style.top = "50%";

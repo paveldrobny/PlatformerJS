@@ -8,6 +8,7 @@ export default class Platform extends ObjectBase {
     this.w = w;
     this.h = h;
     this.color = color;
+    this.type = "Platform"
     this.name = w > h ? "Platform Horizontal" : "Platform Vertical";
   }
 
