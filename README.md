@@ -22,4 +22,4 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
 
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/EditorUpdate.png)
 ![img](https://github.com/paveldrobny/PlatformerJS/blob/master/exportLevel.png)
-![img](https://github.com/paveldrobny/PlatformerJS/blob/master/MainMenu.png)
+![img](https://github.com/paveldrobny/PlatformerJS/blob/master/mainMenu.png)
