@@ -8,6 +8,6 @@ export default class MessageVersion extends MessageBase {
   }
 
   create() {
-    super.create("v1.50", this.positionX, this.positionY);
+    super.create("v1.56", this.positionX, this.positionY);
   }
 }

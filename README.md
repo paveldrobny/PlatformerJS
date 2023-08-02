@@ -4,7 +4,7 @@ Demo: https://paveldrobny.github.io/PlatformerJS/
 
 ## 02.08.2023
 
-### Game version: 1.6 , Editor version: 1.2
+### Game version: 1.55 , Editor version: 1.2
 
 - Added
   - Editor
