@@ -9,7 +9,8 @@ const KEYS = {
   ArrowRight: 39,
   Esc: 27,
   Enter: 13,
-  Spacebar: 32
+  Spacebar: 32,
+  Del: 46,
 };
 
 export default KEYS;

@@ -115,8 +115,8 @@ rect {
 }
 
 .editor.hide {
-  opacity: 0;
-  pointer-events: none;
+  /* opacity: 0;
+  pointer-events: none; */
 }
 
 #editor-top {
@@ -147,6 +147,7 @@ rect {
 .editor-btn {
   color: var(--editor-text);
   border-radius: 4px;
+  margin: 0 2px;
   background: var(--editor-primary-btn);
 }
 
@@ -323,7 +324,7 @@ rect {
   background: white;
 }
 
-#close-addObject {
+#btn-close-add-object {
   color: white;
   position: relative;
   top: 1px;
@@ -357,23 +358,23 @@ rect {
   font-weight: 400;
 }
 
-#editor-export {
+#ui-export {
   width: 500px !important;
 }
 
-#editor-export-message {
+#ui-export-message {
   text-align: center;
   font-weight: bold;
   padding: 5px 0 10px 0;
   color: rgb(197, 44, 44);
 }
 
-#editor-export-scroll {
+#ui-export-scroll {
   max-height: 400px;
   overflow: auto;
 }
 
-#editor-export-text {
+#ui-export-text {
   user-select: all;
   margin: 10px;
   padding: 5px;
@@ -381,11 +382,11 @@ rect {
   color: rgb(212, 212, 212);
 }
 
-#editor-export-text:hover {
+#ui-export-text:hover {
   background: rgb(44, 44, 44);
 }
 
-#close-exportLevel {
+#btn-close-export {
   color: white;
   position: relative;
   top: 1px;
@@ -393,4 +394,12 @@ rect {
   height: 30px;
   float: right;
   background: red;
+}
+
+.editor-notes {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  padding: 2px;
+  color: rgb(148, 148, 148);
 }

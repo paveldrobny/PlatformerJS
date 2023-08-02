@@ -21,56 +21,56 @@
 
     <div class="editor hide">
       <div id="editor-top">
-        <button id="open-addObject" class="editor-btn">
+        <button id="btn-open-add-object" class="editor-btn">
           Add new object...
         </button>
-        <button id="open-export-level" class="editor-btn">
-          Export level...
-        </button>
+        <button id="btn-open-export" class="editor-btn">Export level...</button>
         <div id="playing" class="editor-btn">Play</div>
         <div id="editor-top-content">
           <div id="close" class="editor-btn">EXIT</div>
         </div>
       </div>
 
-      <div id="editor-addObject" class="editor-popup">
+      <div id="ui-add-object" class="editor-popup">
         <div class="editor-popup-title">
-          ADD OBJECT <button id="close-addObject">X</button>
+          ADD OBJECT <button id="btn-close-add-object">X</button>
         </div>
         <div id="add-object-item-wrapper">
-          <button id="editor-add-vertical" class="add-object-items">
+          <button id="btn-add-vertical" class="add-object-items">
             Platform vertical
           </button>
-          <button id="editor-add-horizontal" class="add-object-items">
+          <button id="btn-add-horizontal" class="add-object-items">
             Platform horizontal
           </button>
-          <button id="editor-add-ability-small" class="add-object-items">
+          <button id="btn-add-ability-small" class="add-object-items">
             Ability: small size
           </button>
-          <button id="editor-add-ability-normal" class="add-object-items">
+          <button id="btn-add-ability-normal" class="add-object-items">
             Ability: normal size
           </button>
-          <button id="editor-add-trigger-level" class="add-object-items">
+          <button id="btn-add-trigger-level" class="add-object-items">
             Trigger: next level (only 1)
           </button>
         </div>
       </div>
 
-      <div id="editor-export" class="editor-popup">
+      <div id="ui-export" class="editor-popup">
         <div class="editor-popup-title">
-          EXPORT LEVEL <button id="close-exportLevel">X</button>
+          EXPORT LEVEL <button id="btn-close-export">X</button>
         </div>
-        <div id="editor-export-message">
+        <div id="ui-export-message">
           NOTE: Copy object "level_number" to levels.js
         </div>
-        <div id="editor-export-scroll">
-          <div id="editor-export-text">level empty..</div>
+        <div id="ui-export-scroll">
+          <div id="ui-export-text">level empty..</div>
         </div>
       </div>
 
       <div id="editor-right">
         <div id="scene-objects">
-          <div class="scene-objects-title">Object in scene</div>
+          <div id="scene-objects-count" class="scene-objects-title">
+            Object in scene
+          </div>
           <div class="scene-objects-items">
             <label>Player:</label><label>1</label>
           </div>
@@ -122,9 +122,10 @@
           <input id="editor-color" class="scene-objects-title-sub" />
           <div class="scene-objects-title-main-sub">Actions</div>
           <button id="btn-delete-obj">Delete current object</button>
+          <div class="editor-notes">Or press "Del" key</div>
         </div>
 
-        <div id="editMode">Editor v1.1</div>
+        <div id="editMode">Editor v1.2</div>
       </div>
     </div>
 

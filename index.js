@@ -33,26 +33,34 @@ window.addEventListener("keyup", onKeyUp);
 //#endregion
 
 //#region EDITOR
+const editorObjectsCount = document.getElementById("scene-objects-count");
 const editorObjectCurrent = document.getElementById("editor-current");
 const editorObjectPosX = document.getElementById("editor-posX");
 const editorObjectPosY = document.getElementById("editor-posY");
 const editorObjectWidth = document.getElementById("editor-width");
 const editorObjectHeight = document.getElementById("editor-height");
 const editorObjectColor = document.getElementById("editor-color");
-const uiEditorAddObject = document.getElementById("editor-addObject");
-const btnOpenAddObject = document.getElementById("open-addObject");
-const btnCloseAddObject = document.getElementById("close-addObject");
-const btnAddObjectVertical = document.getElementById("editor-add-vertical");
-const btnAddObjectHorizontal = document.getElementById("editor-add-horizontal");
-const btnAddAbilitySmall = document.getElementById("editor-add-ability-small");
-const btnAddAbilityNormal = document.getElementById(
-  "editor-add-ability-normal"
-);
-const btnAddTriggerLevel = document.getElementById("editor-add-trigger-level");
-const btnOpenExportLevel = document.getElementById("open-export-level");
-const btnCloseExportLevel = document.getElementById("close-exportLevel");
+const uiEditorAddObject = document.getElementById("ui-add-object");
+const uiEditorExport = document.getElementById("ui-export");
+const btnOpenAddObject = document.getElementById("btn-open-add-object");
+const btnCloseAddObject = document.getElementById("btn-close-add-object");
+const btnAddObjectVertical = document.getElementById("btn-add-vertical");
+const btnAddObjectHorizontal = document.getElementById("btn-add-horizontal");
+const btnAddAbilitySmall = document.getElementById("btn-add-ability-small");
+const btnAddAbilityNormal = document.getElementById("btn-add-ability-normal");
+const btnAddTriggerLevel = document.getElementById("btn-add-trigger-level");
+const btnOpenExportLevel = document.getElementById("btn-open-export");
+const btnCloseExportLevel = document.getElementById("btn-close-export");
 const btnPlaying = document.getElementById("playing");
 const btnDeleteObj = document.getElementById("btn-delete-obj");
+
+const updateSceneObjectCount = () => {
+  const platforms = editorOptions.level.platforms.length;
+  const collected = editorOptions.level.collecteds.length;
+  editorObjectsCount.innerHTML = `Object in scene (${
+    1 + platforms + collected
+  })`;
+};
 
 btnOpenAddObject.addEventListener("click", function () {
   uiEditorAddObject.style.display = "block";
@@ -68,21 +76,25 @@ const sceneObjectAbility = document.getElementById("scene-objects-ability");
 btnAddObjectVertical.addEventListener("click", function () {
   editor.addPlatform(true, editorOptions.level.platforms);
   sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
+  updateSceneObjectCount();
 });
 
 btnAddObjectHorizontal.addEventListener("click", function () {
   editor.addPlatform(false, editorOptions.level.platforms);
   sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
+  updateSceneObjectCount();
 });
 
 btnAddAbilitySmall.addEventListener("click", function () {
   editor.addAbilitySmall(editorOptions.level.collecteds);
   sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+  updateSceneObjectCount();
 });
 
 btnAddAbilityNormal.addEventListener("click", function () {
   editor.addAbilityNormal(editorOptions.level.collecteds);
   sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+  updateSceneObjectCount();
 });
 
 btnAddTriggerLevel.addEventListener("click", function () {
@@ -94,17 +106,16 @@ btnAddTriggerLevel.addEventListener("click", function () {
 
   editor.addCrystal(editorOptions.level.collecteds);
   sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+  updateSceneObjectCount();
 });
 
 btnOpenExportLevel.addEventListener("click", function () {
-  const editorExport = document.getElementById("editor-export");
-  editorExport.style.display = "block";
+  uiEditorExport.style.display = "block";
   exportLevel();
 });
 
 btnCloseExportLevel.addEventListener("click", function () {
-  const editorExport = document.getElementById("editor-export");
-  editorExport.style.display = "none";
+  uiEditorExport.style.display = "none";
 });
 
 btnPlaying.addEventListener("click", function () {
@@ -119,22 +130,36 @@ btnPlaying.addEventListener("click", function () {
   }
 });
 
+function deleteObject() {
+  if (editorOptions.selectedObj.name !== "Player") {
+    unSelect();
+    if (editorOptions.selectedObj.type === "Platform") {
+      console.log(`${editorOptions.selectedObj.name} was deleted!`);
+      editor.removeObj(
+        editorOptions.selectedObj,
+        editorOptions.level.platforms
+      );
+      sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
+      updateSceneObjectCount();
+    }
+    if (editorOptions.selectedObj.type === "Collected") {
+      console.log(`${editorOptions.selectedObj.name} was deleted!`);
+      editor.removeObj(
+        editorOptions.selectedObj,
+        editorOptions.level.collecteds
+      );
+      sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
+      updateSceneObjectCount();
+    }
+  }
+}
+
 btnDeleteObj.addEventListener("click", () => {
-  console.log(editorOptions.selectedObj.name);
-  if (editorOptions.selectedObj.type === "Platform") {
-    console.log(`${editorOptions.selectedObj.name} was deleted!`);
-    editor.removeObj(editorOptions.selectedObj, editorOptions.level.platforms);
-    sceneObjectPlatform.innerHTML = editorOptions.level.platforms.length;
-  }
-  if (editorOptions.selectedObj.type === "Collected") {
-    console.log(`${editorOptions.selectedObj.name} was deleted!`);
-    editor.removeObj(editorOptions.selectedObj, editorOptions.level.collecteds);
-    sceneObjectAbility.innerHTML = editorOptions.level.collecteds.length;
-  }
+  deleteObject();
 });
 
 function exportLevel() {
-  const exportLevelText = document.getElementById("editor-export-text");
+  const exportLevelText = document.getElementById("ui-export-text");
   const editorPlatforms = editorOptions.level.platforms;
   const editorCollecteds = editorOptions.level.collecteds;
   const levelData = [];
@@ -269,6 +294,15 @@ function selectObject() {
   }
 }
 
+function unSelect() {
+  editorObjectCurrent.innerHTML = "{no selected}";
+  editorObjectPosX.value = 0;
+  editorObjectPosY.value = 0;
+  editorObjectWidth.value = 1;
+  editorObjectHeight.value = 1;
+  editorObjectColor.value = "red";
+}
+
 function unSelectObject() {
   player.isDraggable = false;
 
@@ -281,7 +315,7 @@ function unSelectObject() {
   }
 
   if (editorOptions.selectedObj === null) {
-    editorObjectCurrent.innerHTML = "{no selected}";
+    unSelect();
   }
 }
 
@@ -344,11 +378,7 @@ document.getElementById("close").addEventListener("click", () => {
   editorOptions.level.collecteds = [];
   editorOptions.level.platforms = [];
 
-  editorObjectPosX.value = 0;
-  editorObjectPosY.value = 0;
-  editorObjectWidth.value = 1;
-  editorObjectHeight.value = 1;
-  editorObjectColor.value = "red";
+  unSelect();
 
   editorUI[0].classList.add("hide");
   player.setPosition(30, 600);
@@ -417,6 +447,11 @@ function input() {
       gameOptions.startGame = false;
       menuUI.style.display = "block";
       gameManager.resize(canvas, context, canvasWidth, canvasHeight);
+    }
+  }
+  if (keyState[KEYS.Del]) {
+    if (editorOptions.enabled) {
+      if (editorOptions.selectedObj !== null) deleteObject();
     }
   }
 }
